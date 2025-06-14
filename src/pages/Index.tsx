@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Sidebar } from "@/components/Sidebar";
@@ -39,6 +38,61 @@ const mockIncidents: EmergencyIncident[] = [
     timestamp: new Date("2024-06-13T09:20:00"),
     status: "attended",
     description: "Fall detected in bedroom"
+  },
+  {
+    id: "4",
+    residentName: "Mr. Amit Patel",
+    phoneNumber: "+91 *****216",
+    flatNumber: "D-401",
+    incidentType: "gas_leak",
+    nokPhone: "+91 *****217",
+    timestamp: new Date("2024-06-13T11:15:00"),
+    status: "yet_to_attend",
+    description: "Gas leak detected in kitchen area"
+  },
+  {
+    id: "5",
+    residentName: "Mrs. Kavita Singh",
+    phoneNumber: "+91 *****218",
+    flatNumber: "E-103",
+    incidentType: "smoke_detector",
+    nokPhone: "+91 *****219",
+    timestamp: new Date("2024-06-13T08:30:00"),
+    status: "attended",
+    description: "Smoke detected in living room"
+  },
+  {
+    id: "6",
+    residentName: "Mr. Deepak Joshi",
+    phoneNumber: "+91 *****220",
+    flatNumber: "F-506",
+    incidentType: "sos",
+    nokPhone: "+91 *****221",
+    timestamp: new Date("2024-06-13T12:45:00"),
+    status: "attending",
+    description: "Medical emergency - SOS activated"
+  },
+  {
+    id: "7",
+    residentName: "Mrs. Rekha Mehta",
+    phoneNumber: "+91 *****222",
+    flatNumber: "G-208",
+    incidentType: "fall_detection",
+    nokPhone: "+91 *****223",
+    timestamp: new Date("2024-06-13T07:10:00"),
+    status: "attended",
+    description: "Fall detected in bathroom"
+  },
+  {
+    id: "8",
+    residentName: "Mr. Suresh Agarwal",
+    phoneNumber: "+91 *****224",
+    flatNumber: "H-304",
+    incidentType: "fire_alarm",
+    nokPhone: "+91 *****225",
+    timestamp: new Date("2024-06-13T13:20:00"),
+    status: "yet_to_attend",
+    description: "Fire alarm activated in bedroom"
   }
 ];
 
