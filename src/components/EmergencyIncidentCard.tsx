@@ -41,6 +41,10 @@ export const EmergencyIncidentCard = ({ incident }: EmergencyIncidentCardProps) 
     }
   };
 
+  const handleStatusChange = (value: string) => {
+    setStatus(value as IncidentStatus);
+  };
+
   const typeInfo = getIncidentTypeInfo(incident.incidentType);
 
   return (
@@ -121,7 +125,7 @@ export const EmergencyIncidentCard = ({ incident }: EmergencyIncidentCardProps) 
             </Button>
           </div>
 
-          <Select value={status} onValueChange={setStatus}>
+          <Select value={status} onValueChange={handleStatusChange}>
             <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
