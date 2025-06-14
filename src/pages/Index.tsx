@@ -125,7 +125,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <DashboardHeader />
       
       <div className="flex h-[calc(100vh-73px)]">
@@ -139,29 +139,37 @@ const Index = () => {
           setSelectedDate={setSelectedDate}
         />
         
-        <main className="flex-1 p-6 overflow-auto">
-          <div className="mb-6">
+        <main className="flex-1 p-8 overflow-auto">
+          <div className="mb-8">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold text-gray-900">
-                Emergency Alerts ({filteredIncidents.length})
-              </h1>
-              <div className="bg-purple-600 text-white px-3 py-1 rounded text-sm font-medium">
-                Jun 13, 2025
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  Emergency Alerts
+                </h1>
+                <p className="text-gray-600">
+                  {filteredIncidents.length} incident{filteredIncidents.length !== 1 ? 's' : ''} found
+                </p>
+              </div>
+              <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-lg shadow-sm font-medium">
+                Jun 14, 2025
               </div>
             </div>
           </div>
           
           {filteredIncidents.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="text-gray-400 text-lg">No incidents found</div>
-              <p className="text-gray-500 mt-2">
+            <div className="text-center py-16">
+              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl text-gray-400">📋</span>
+              </div>
+              <div className="text-xl font-medium text-gray-400 mb-2">No incidents found</div>
+              <p className="text-gray-500 max-w-md mx-auto">
                 {selectedDate.toDateString() === new Date().toDateString() 
-                  ? "All clear for today!" 
-                  : "No incidents for the selected date."}
+                  ? "All clear for today! No emergency incidents to report." 
+                  : "No incidents recorded for the selected date."}
               </p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-6">
               {filteredIncidents.map((incident) => (
                 <EmergencyAlertItem key={incident.id} incident={incident} />
               ))}
