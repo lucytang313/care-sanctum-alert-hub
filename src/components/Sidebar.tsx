@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Calendar, X } from "lucide-react";
+import { Calendar, X, AlertCircle, Loader2, CheckCircle2, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -56,7 +56,7 @@ export const Sidebar = ({
                   <p className="text-xl lg:text-2xl font-bold text-red-600">{stats.yetToAttend}</p>
                 </div>
                 <div className="w-6 h-6 lg:w-8 lg:h-8 bg-red-100 rounded-full flex items-center justify-center">
-                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-red-500 rounded-full"></div>
+                  <AlertCircle className="h-4 w-4 lg:h-5 lg:w-5 text-red-500" />
                 </div>
               </div>
             </CardContent>
@@ -70,7 +70,7 @@ export const Sidebar = ({
                   <p className="text-xl lg:text-2xl font-bold text-yellow-600">{stats.attending}</p>
                 </div>
                 <div className="w-6 h-6 lg:w-8 lg:h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-yellow-500 rounded-full"></div>
+                  <Loader2 className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-500 animate-spin" />
                 </div>
               </div>
             </CardContent>
@@ -84,7 +84,7 @@ export const Sidebar = ({
                   <p className="text-xl lg:text-2xl font-bold text-green-600">{stats.attended}</p>
                 </div>
                 <div className="w-6 h-6 lg:w-8 lg:h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-green-500 rounded-full"></div>
+                  <CheckCircle2 className="h-4 w-4 lg:h-5 lg:w-5 text-green-500" />
                 </div>
               </div>
             </CardContent>
@@ -98,7 +98,7 @@ export const Sidebar = ({
                   <p className="text-xl lg:text-2xl font-bold text-blue-600">{stats.total}</p>
                 </div>
                 <div className="w-6 h-6 lg:w-8 lg:h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <div className="w-2 h-2 lg:w-3 lg:h-3 bg-blue-500 rounded-full"></div>
+                  <List className="h-4 w-4 lg:h-5 lg:w-5 text-blue-500" />
                 </div>
               </div>
             </CardContent>

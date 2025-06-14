@@ -1,8 +1,20 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { EmergencyIncident, IncidentStatus } from "@/types/emergency";
-import { Phone, MapPin, Clock, AlertTriangle, User } from "lucide-react";
+import { EmergencyIncident, IncidentStatus, IncidentType } from "@/types/emergency";
+import {
+  Phone,
+  MapPin,
+  Clock,
+  AlertTriangle,
+  User,
+  Sos,
+  FireExtinguisher,
+  CloudSmoke,
+  ShieldAlert,
+  Accessibility,
+  HelpCircle,
+} from "lucide-react";
 
 interface EmergencyAlertItemProps {
   incident: EmergencyIncident;
@@ -27,43 +39,43 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
     }
   };
 
-  const getIncidentTypeInfo = (type: string) => {
+  const getIncidentTypeInfo = (type: IncidentType) => {
     switch (type) {
       case "sos": return { 
         label: "SOS Emergency", 
-        color: "bg-red-500", 
-        icon: "🆘",
-        borderColor: "border-red-200"
+        Icon: Sos,
+        borderColor: "border-red-200",
+        iconColor: "text-red-500"
       };
       case "fire_alarm": return { 
         label: "Fire Alarm", 
-        color: "bg-orange-500", 
-        icon: "🔥",
-        borderColor: "border-orange-200"
+        Icon: FireExtinguisher,
+        borderColor: "border-orange-200",
+        iconColor: "text-orange-500"
       };
       case "smoke_detector": return { 
         label: "Smoke Detected", 
-        color: "bg-orange-400", 
-        icon: "💨",
-        borderColor: "border-orange-200"
+        Icon: CloudSmoke,
+        borderColor: "border-orange-200",
+        iconColor: "text-orange-400"
       };
       case "gas_leak": return { 
         label: "Gas Leak", 
-        color: "bg-yellow-500", 
-        icon: "⚠️",
-        borderColor: "border-yellow-200"
+        Icon: ShieldAlert,
+        borderColor: "border-yellow-200",
+        iconColor: "text-yellow-500"
       };
       case "fall_detection": return { 
         label: "Fall Detected", 
-        color: "bg-purple-500", 
-        icon: "🚨",
-        borderColor: "border-purple-200"
+        Icon: Accessibility,
+        borderColor: "border-purple-200",
+        iconColor: "text-purple-500"
       };
       default: return { 
         label: "Unknown", 
-        color: "bg-gray-500", 
-        icon: "❓",
-        borderColor: "border-gray-200"
+        Icon: HelpCircle,
+        borderColor: "border-gray-200",
+        iconColor: "text-gray-500"
       };
     }
   };
@@ -110,7 +122,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
         <div className="mb-4 p-3 lg:p-4 bg-gray-50 rounded-lg">
           <div className="flex items-start space-x-3 mb-2">
             <div className="w-6 h-6 lg:w-8 lg:h-8 bg-white rounded-lg flex items-center justify-center shadow-sm flex-shrink-0">
-              <span className="text-sm lg:text-lg">{typeInfo.icon}</span>
+              <typeInfo.Icon className={`h-4 w-4 lg:h-5 lg:w-5 ${typeInfo.iconColor}`} />
             </div>
             <div className="min-w-0 flex-1">
               <span className="font-semibold text-gray-900 text-sm lg:text-base">{typeInfo.label}</span>
