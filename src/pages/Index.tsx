@@ -1,10 +1,11 @@
+
 import { useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Sidebar } from "@/components/Sidebar";
 import { EmergencyAlertItem } from "@/components/EmergencyAlertItem";
 import { EmergencyIncident, IncidentStatus, IncidentType } from "@/types/emergency";
 
-// Mock data for demonstration
+// Mock data for demonstration - using today's date
 const mockIncidents: EmergencyIncident[] = [
   {
     id: "1",
@@ -13,7 +14,7 @@ const mockIncidents: EmergencyIncident[] = [
     flatNumber: "A-101",
     incidentType: "sos",
     nokPhone: "+91 *****211",
-    timestamp: new Date("2024-06-13T10:20:00"),
+    timestamp: new Date("2025-06-14T10:20:00"),
     status: "yet_to_attend",
     description: "Emergency SOS button pressed"
   },
@@ -24,7 +25,7 @@ const mockIncidents: EmergencyIncident[] = [
     flatNumber: "B-205",
     incidentType: "fire_alarm",
     nokPhone: "+91 *****213",
-    timestamp: new Date("2024-06-13T09:50:00"),
+    timestamp: new Date("2025-06-14T09:50:00"),
     status: "attending",
     description: "Fire alarm triggered in kitchen"
   },
@@ -35,7 +36,7 @@ const mockIncidents: EmergencyIncident[] = [
     flatNumber: "C-302",
     incidentType: "fall_detection",
     nokPhone: "+91 *****215",
-    timestamp: new Date("2024-06-13T09:20:00"),
+    timestamp: new Date("2025-06-14T09:20:00"),
     status: "attended",
     description: "Fall detected in bedroom"
   },
@@ -46,7 +47,7 @@ const mockIncidents: EmergencyIncident[] = [
     flatNumber: "D-401",
     incidentType: "gas_leak",
     nokPhone: "+91 *****217",
-    timestamp: new Date("2024-06-13T11:15:00"),
+    timestamp: new Date("2025-06-14T11:15:00"),
     status: "yet_to_attend",
     description: "Gas leak detected in kitchen area"
   },
@@ -57,7 +58,7 @@ const mockIncidents: EmergencyIncident[] = [
     flatNumber: "E-103",
     incidentType: "smoke_detector",
     nokPhone: "+91 *****219",
-    timestamp: new Date("2024-06-13T08:30:00"),
+    timestamp: new Date("2025-06-14T08:30:00"),
     status: "attended",
     description: "Smoke detected in living room"
   },
@@ -68,7 +69,7 @@ const mockIncidents: EmergencyIncident[] = [
     flatNumber: "F-506",
     incidentType: "sos",
     nokPhone: "+91 *****221",
-    timestamp: new Date("2024-06-13T12:45:00"),
+    timestamp: new Date("2025-06-14T12:45:00"),
     status: "attending",
     description: "Medical emergency - SOS activated"
   },
@@ -79,7 +80,7 @@ const mockIncidents: EmergencyIncident[] = [
     flatNumber: "G-208",
     incidentType: "fall_detection",
     nokPhone: "+91 *****223",
-    timestamp: new Date("2024-06-13T07:10:00"),
+    timestamp: new Date("2025-06-14T07:10:00"),
     status: "attended",
     description: "Fall detected in bathroom"
   },
@@ -90,7 +91,7 @@ const mockIncidents: EmergencyIncident[] = [
     flatNumber: "H-304",
     incidentType: "fire_alarm",
     nokPhone: "+91 *****225",
-    timestamp: new Date("2024-06-13T13:20:00"),
+    timestamp: new Date("2025-06-14T13:20:00"),
     status: "yet_to_attend",
     description: "Fire alarm activated in bedroom"
   }
