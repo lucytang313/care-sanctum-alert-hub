@@ -127,7 +127,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-ca-purple-light">
+    <div className="min-h-screen">
       <DashboardHeader />
       
       <div className="flex h-[calc(100vh-73px)] relative">
@@ -167,8 +167,8 @@ const Index = () => {
               onClick={() => setIsSidebarOpen(true)}
               className="flex items-center space-x-2"
             >
-              <Menu className="h-5 w-5 ca-navy" />
-              <span className="ca-navy font-medium">Filters & Stats</span>
+              <Menu className="h-5 w-5" />
+              <span>Filters & Stats</span>
             </Button>
           </div>
 
@@ -176,14 +176,14 @@ const Index = () => {
             <div className="mb-6 lg:mb-8">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
                 <div>
-                  <h1 className="text-2xl lg:text-3xl font-bold ca-navy mb-2 underline decoration-ca-purple/50 underline-offset-4">
+                  <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
                     Emergency Alerts
                   </h1>
                   <p className="text-gray-600">
                     {filteredIncidents.length} incident{filteredIncidents.length !== 1 ? 's' : ''} found
                   </p>
                 </div>
-                <div className="bg-gradient-to-r from-ca-purple via-ca-pink to-ca-navy text-white px-4 py-2 rounded-lg shadow-sm font-medium text-center lg:text-left">
+                <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-lg shadow-sm font-medium text-center lg:text-left">
                   Jun 14, 2025
                 </div>
               </div>
@@ -191,8 +191,8 @@ const Index = () => {
             
             {filteredIncidents.length === 0 ? (
               <div className="text-center py-12 lg:py-16">
-                <div className="w-16 h-16 bg-ca-pink-light rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl ca-pink">📋</span>
+                <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl text-gray-400">📋</span>
                 </div>
                 <div className="text-xl font-medium text-gray-400 mb-2">No incidents found</div>
                 <p className="text-gray-500 max-w-md mx-auto px-4">
