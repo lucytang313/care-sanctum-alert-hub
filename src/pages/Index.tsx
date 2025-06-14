@@ -1,45 +1,44 @@
 
 import { useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
-import { StatsCards } from "@/components/StatsCards";
-import { EmergencyIncidentCard } from "@/components/EmergencyIncidentCard";
-import { FilterControls } from "@/components/FilterControls";
+import { Sidebar } from "@/components/Sidebar";
+import { EmergencyAlertItem } from "@/components/EmergencyAlertItem";
 import { EmergencyIncident, IncidentStatus, IncidentType } from "@/types/emergency";
 
 // Mock data for demonstration
 const mockIncidents: EmergencyIncident[] = [
   {
     id: "1",
-    residentName: "Margaret Johnson",
-    phoneNumber: "+1-555-0123",
-    flatNumber: "A-402",
-    incidentType: "fall_detection",
-    nokPhone: "+1-555-0124",
-    timestamp: new Date("2024-06-14T09:30:00"),
+    residentName: "Mrs. Priya Sharma",
+    phoneNumber: "+91 *****210",
+    flatNumber: "A-101",
+    incidentType: "sos",
+    nokPhone: "+91 *****211",
+    timestamp: new Date("2024-06-13T10:20:00"),
     status: "yet_to_attend",
-    description: "Fall detected in living room area"
+    description: "Emergency SOS button pressed"
   },
   {
     id: "2",
-    residentName: "Robert Chen",
-    phoneNumber: "+1-555-0125",
-    flatNumber: "B-305",
-    incidentType: "sos",
-    nokPhone: "+1-555-0126",
-    timestamp: new Date("2024-06-14T10:15:00"),
+    residentName: "Mr. Rajesh Kumar",
+    phoneNumber: "+91 *****212",
+    flatNumber: "B-205",
+    incidentType: "fire_alarm",
+    nokPhone: "+91 *****213",
+    timestamp: new Date("2024-06-13T09:50:00"),
     status: "attending",
-    description: "SOS button pressed - urgent assistance required"
+    description: "Fire alarm triggered in kitchen"
   },
   {
     id: "3",
-    residentName: "Dorothy Williams",
-    phoneNumber: "+1-555-0127",
-    flatNumber: "C-101",
-    incidentType: "smoke_detector",
-    nokPhone: "+1-555-0128",
-    timestamp: new Date("2024-06-14T11:45:00"),
-    status: "yet_to_attend",
-    description: "Smoke detected in kitchen area"
+    residentName: "Mrs. Sunita Gupta",
+    phoneNumber: "+91 *****214",
+    flatNumber: "C-302",
+    incidentType: "fall_detection",
+    nokPhone: "+91 *****215",
+    timestamp: new Date("2024-06-13T09:20:00"),
+    status: "attended",
+    description: "Fall detected in bedroom"
   }
 ];
 
@@ -74,10 +73,9 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50">
       <DashboardHeader />
       
-      <main className="container mx-auto px-4 py-6 space-y-6">
-        <StatsCards stats={getStatusCounts()} />
-        
-        <FilterControls
+      <div className="flex h-[calc(100vh-73px)]">
+        <Sidebar
+          stats={getStatusCounts()}
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
           typeFilter={typeFilter}
@@ -85,11 +83,18 @@ const Index = () => {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
-
-        <div className="bg-white rounded-lg shadow-sm border p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            Emergency Incidents ({filteredIncidents.length})
-          </h2>
+        
+        <main className="flex-1 p-6 overflow-auto">
+          <div className="mb-6">
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-bold text-gray-900">
+                Emergency Alerts ({filteredIncidents.length})
+              </h1>
+              <div className="bg-purple-600 text-white px-3 py-1 rounded text-sm font-medium">
+                Jun 13, 2025
+              </div>
+            </div>
+          </div>
           
           {filteredIncidents.length === 0 ? (
             <div className="text-center py-12">
@@ -101,14 +106,14 @@ const Index = () => {
               </p>
             </div>
           ) : (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="space-y-4">
               {filteredIncidents.map((incident) => (
-                <EmergencyIncidentCard key={incident.id} incident={incident} />
+                <EmergencyAlertItem key={incident.id} incident={incident} />
               ))}
             </div>
           )}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
