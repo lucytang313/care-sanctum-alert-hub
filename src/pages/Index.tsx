@@ -127,7 +127,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen">
       <DashboardHeader />
       
       <div className="flex h-[calc(100vh-73px)] relative">

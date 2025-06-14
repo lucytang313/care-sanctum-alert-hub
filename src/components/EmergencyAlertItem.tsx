@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -86,7 +87,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
   const typeInfo = getIncidentTypeInfo(incident.incidentType);
 
   return (
-    <div className={`bg-white rounded-xl shadow-sm border-l-4 ${typeInfo.borderColor} hover:shadow-md transition-all duration-200 overflow-hidden`}>
+    <div className={`bg-white rounded-xl shadow-sm border-l-4 ${typeInfo.borderColor} hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden`}>
       <div className="p-4 lg:p-6">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-3 lg:space-y-0 mb-4">
