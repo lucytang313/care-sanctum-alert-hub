@@ -1,9 +1,10 @@
-
 import { useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Sidebar } from "@/components/Sidebar";
 import { EmergencyAlertItem } from "@/components/EmergencyAlertItem";
 import { EmergencyIncident, IncidentStatus, IncidentType } from "@/types/emergency";
+import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
 
 // Mock data for demonstration - using today's date
 const mockIncidents: EmergencyIncident[] = [
@@ -102,6 +103,7 @@ const Index = () => {
   const [statusFilter, setStatusFilter] = useState<IncidentStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<IncidentType | "all">("all");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const filteredIncidents = incidents.filter(incident => {
     const matchesStatus = statusFilter === "all" || incident.status === statusFilter;
@@ -128,53 +130,85 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <DashboardHeader />
       
-      <div className="flex h-[calc(100vh-73px)]">
-        <Sidebar
-          stats={getStatusCounts()}
-          statusFilter={statusFilter}
-          setStatusFilter={setStatusFilter}
-          typeFilter={typeFilter}
-          setTypeFilter={setTypeFilter}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-        />
+      <div className="flex h-[calc(100vh-73px)] relative">
+        {/* Mobile sidebar overlay */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
         
-        <main className="flex-1 p-8 overflow-auto">
-          <div className="mb-8">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                  Emergency Alerts
-                </h1>
-                <p className="text-gray-600">
-                  {filteredIncidents.length} incident{filteredIncidents.length !== 1 ? 's' : ''} found
+        {/* Sidebar */}
+        <div className={`
+          fixed lg:relative z-50 lg:z-auto
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          transition-transform duration-300 ease-in-out
+          h-full
+        `}>
+          <Sidebar
+            stats={getStatusCounts()}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+            typeFilter={typeFilter}
+            setTypeFilter={setTypeFilter}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            onClose={() => setIsSidebarOpen(false)}
+          />
+        </div>
+        
+        <main className="flex-1 flex flex-col min-w-0">
+          {/* Mobile header with menu button */}
+          <div className="lg:hidden bg-white border-b border-gray-200 p-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsSidebarOpen(true)}
+              className="flex items-center space-x-2"
+            >
+              <Menu className="h-5 w-5" />
+              <span>Filters & Stats</span>
+            </Button>
+          </div>
+
+          <div className="flex-1 p-4 lg:p-8 overflow-auto">
+            <div className="mb-6 lg:mb-8">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                <div>
+                  <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                    Emergency Alerts
+                  </h1>
+                  <p className="text-gray-600">
+                    {filteredIncidents.length} incident{filteredIncidents.length !== 1 ? 's' : ''} found
+                  </p>
+                </div>
+                <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-lg shadow-sm font-medium text-center lg:text-left">
+                  Jun 14, 2025
+                </div>
+              </div>
+            </div>
+            
+            {filteredIncidents.length === 0 ? (
+              <div className="text-center py-12 lg:py-16">
+                <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl text-gray-400">📋</span>
+                </div>
+                <div className="text-xl font-medium text-gray-400 mb-2">No incidents found</div>
+                <p className="text-gray-500 max-w-md mx-auto px-4">
+                  {selectedDate.toDateString() === new Date().toDateString() 
+                    ? "All clear for today! No emergency incidents to report." 
+                    : "No incidents recorded for the selected date."}
                 </p>
               </div>
-              <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-lg shadow-sm font-medium">
-                Jun 14, 2025
+            ) : (
+              <div className="space-y-4 lg:space-y-6">
+                {filteredIncidents.map((incident) => (
+                  <EmergencyAlertItem key={incident.id} incident={incident} />
+                ))}
               </div>
-            </div>
+            )}
           </div>
-          
-          {filteredIncidents.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl text-gray-400">📋</span>
-              </div>
-              <div className="text-xl font-medium text-gray-400 mb-2">No incidents found</div>
-              <p className="text-gray-500 max-w-md mx-auto">
-                {selectedDate.toDateString() === new Date().toDateString() 
-                  ? "All clear for today! No emergency incidents to report." 
-                  : "No incidents recorded for the selected date."}
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {filteredIncidents.map((incident) => (
-                <EmergencyAlertItem key={incident.id} incident={incident} />
-              ))}
-            </div>
-          )}
         </main>
       </div>
     </div>
