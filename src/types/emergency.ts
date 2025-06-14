@@ -1,4 +1,3 @@
-
 export type IncidentType = 
   | "sos" 
   | "fire_alarm" 
@@ -34,4 +33,26 @@ export interface DashboardStats {
   attending: number;
   attended: number;
   total: number;
+}
+
+export interface EmergencyContact {
+  name:string;
+  relation: string;
+  phone: string;
+}
+
+export type SafetyDevice = "sos_button" | "fall_detector" | "smoke_detector" | "gas_leak_detector";
+
+export interface Resident {
+  id: string;
+  name: string;
+  age: number;
+  flatNumber: string;
+  phone: string;
+  email: string;
+  emergencyContacts: EmergencyContact[];
+  safetyDevices: SafetyDevice[];
+  avatarInitials: string;
+  medicalInfo: string;
+  recentAlerts: EmergencyIncident[];
 }
