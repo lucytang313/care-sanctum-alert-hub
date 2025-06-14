@@ -6,11 +6,10 @@ import {
   Phone,
   MapPin,
   Clock,
-  AlertTriangle,
   User,
-  Sos,
+  Siren,
   FireExtinguisher,
-  CloudSmoke,
+  AlarmSmoke,
   ShieldAlert,
   Accessibility,
   HelpCircle,
@@ -43,7 +42,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
     switch (type) {
       case "sos": return { 
         label: "SOS Emergency", 
-        Icon: Sos,
+        Icon: Siren,
         borderColor: "border-red-200",
         iconColor: "text-red-500"
       };
@@ -55,7 +54,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
       };
       case "smoke_detector": return { 
         label: "Smoke Detected", 
-        Icon: CloudSmoke,
+        Icon: AlarmSmoke,
         borderColor: "border-orange-200",
         iconColor: "text-orange-400"
       };
