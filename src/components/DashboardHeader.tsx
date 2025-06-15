@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -287,51 +286,75 @@ export const DashboardHeader = () => {
                   <span className="hidden md:inline">Society Info</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="rounded-2xl max-w-xl w-[95vw]">
-                <DialogHeader>
-                  <DialogTitle className="text-xl flex items-center gap-2">
-                    <Building2 className="h-6 w-6 text-purple-600" />
+              <DialogContent className="rounded-2xl max-w-3xl w-[95vw] p-0">
+                <DialogHeader className="p-6 border-b">
+                  <DialogTitle className="text-2xl flex items-center gap-3">
+                    <div className="bg-purple-100 p-2 rounded-lg">
+                      <Building2 className="h-6 w-6 text-purple-600" />
+                    </div>
                     Society Information
                   </DialogTitle>
                 </DialogHeader>
-                <div className="flex items-center gap-4 py-4 mb-2">
-                  <img 
-                    src={society.logoUrl ?? "/lovable-uploads/ce42e031-be3b-4c21-8b06-f0ea6e60fe7e.png"} 
-                    alt={society.name} 
-                    className="h-16 w-16 rounded-xl bg-white border object-cover"
-                  />
-                  <div>
-                    <div className="text-lg font-bold text-gray-800">{society.name}</div>
-                    <div className="text-sm text-gray-500">ID: {society.id}</div>
-                  </div>
-                </div>
-                <div className="mb-2">
-                  <div className="text-base font-semibold flex items-center gap-2 mb-2">
-                    <UserCog2 className="h-5 w-5 text-purple-600" />
-                    Staff Members
-                  </div>
-                  <div className="divide-y border rounded-xl overflow-hidden">
-                    {mockStaff.map(staff => (
-                      <div key={staff.id} className="flex items-center gap-4 px-4 py-3 bg-white hover:bg-purple-50 transition-colors">
-                        <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-bold text-md shrink-0">
-                          {staff.photoInitials}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-medium text-gray-800 truncate">{staff.name}</div>
-                          <div className="text-xs text-gray-500">{staff.role}</div>
+                <div className="p-6 grid md:grid-cols-2 gap-8">
+                  {/* Left Column: Society Details */}
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={society.logoUrl ?? "/lovable-uploads/ce42e031-be3b-4c21-8b06-f0ea6e60fe7e.png"}
+                        alt={society.name}
+                        className="h-20 w-20 rounded-xl bg-white border object-cover"
+                      />
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900">{society.name}</h3>
+                        <p className="text-sm text-gray-500">ID: {society.id}</p>
+                      </div>
+                    </div>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-base">Quick Stats</CardTitle>
+                      </CardHeader>
+                      <CardContent className="grid grid-cols-2 gap-4 text-center">
+                        <div>
+                          <p className="text-2xl font-bold">{mockResidents.length}</p>
+                          <p className="text-sm text-muted-foreground">Residents</p>
                         </div>
                         <div>
-                          <div className="text-xs text-gray-500 flex items-center gap-1">
-                            <Phone className="h-3 w-3 mr-1 opacity-50" />
-                            {staff.phone}
+                          <p className="text-2xl font-bold">{mockStaff.length}</p>
+                          <p className="text-sm text-muted-foreground">Staff</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Right Column: Staff Members */}
+                  <div>
+                    <h4 className="text-lg font-semibold flex items-center gap-2 mb-4">
+                      <UserCog2 className="h-5 w-5 text-purple-600" />
+                      Staff Members
+                    </h4>
+                    <div className="space-y-3">
+                      {mockStaff.map(staff => (
+                        <div key={staff.id} className="flex items-center gap-4 p-3 rounded-lg border bg-white hover:bg-gray-50/50 transition-all">
+                          <div className="w-11 h-11 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-bold text-md shrink-0">
+                            {staff.photoInitials}
                           </div>
-                          <div className="text-xs text-gray-500 flex items-center gap-1">
-                            <Mail className="h-3 w-3 mr-1 opacity-50" />
-                            {staff.email}
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-gray-800 truncate">{staff.name}</p>
+                            <p className="text-sm text-gray-500">{staff.role}</p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="text-sm text-gray-600 flex items-center justify-end gap-1.5 whitespace-nowrap">
+                              <Phone className="h-3.5 w-3.5 text-gray-400" />
+                              {staff.phone}
+                            </p>
+                            <p className="text-sm text-gray-600 flex items-center justify-end gap-1.5 whitespace-nowrap">
+                              <Mail className="h-3.5 w-3.5 text-gray-400" />
+                              {staff.email}
+                            </p>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </DialogContent>
@@ -351,4 +374,3 @@ export const DashboardHeader = () => {
 };
 
 export default DashboardHeader;
-
