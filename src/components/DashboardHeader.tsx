@@ -98,8 +98,8 @@ export const DashboardHeader = () => {
   };
 
   return (
-    <header className="bg-gradient-to-b from-white via-purple-50 to-white shadow-xl border-b border-gray-100">
-      <div className="px-6 py-5 lg:py-7">
+    <header className="bg-gradient-to-b from-white via-purple-50 to-white border-b border-gray-100">
+      <div className="px-6 py-3 lg:py-4">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center space-x-4 shrink-0">
             {/* CareStanctum Logo and Branding */}
@@ -107,9 +107,9 @@ export const DashboardHeader = () => {
               <img 
                 src="/lovable-uploads/ce42e031-be3b-4c21-8b06-f0ea6e60fe7e.png" 
                 alt="CareStanctum" 
-                className="h-12 sm:h-14 w-auto transition-all duration-300 rounded-xl shadow-sm"
+                className="h-10 sm:h-12 w-auto transition-all duration-300 rounded-xl"
               />
-              <div className="hidden md:block bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 text-white px-5 py-2 rounded-lg text-xl lg:text-2xl font-extrabold tracking-tight shadow-md drop-shadow-md transition-all duration-300">
+              <div className="hidden md:block bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 text-white px-4 py-1.5 rounded-lg text-lg lg:text-xl font-extrabold tracking-tight transition-all duration-300">
                 Emergency Response Dashboard
               </div>
             </div>
@@ -124,7 +124,7 @@ export const DashboardHeader = () => {
                   <span className="hidden lg:inline ml-1">Resident Directory</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-5xl w-[90vw] h-[90vh] flex flex-col p-0 rounded-2xl shadow-xl">
+              <DialogContent className="max-w-5xl w-[90vw] h-[90vh] flex flex-col p-0 rounded-2xl">
                 <DialogHeader className="p-4 lg:p-6 border-b">
                   <DialogTitle className="text-xl">Resident Information</DialogTitle>
                 </DialogHeader>
@@ -259,11 +259,11 @@ export const DashboardHeader = () => {
 
             <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-10 w-10 shrink-0 rounded-lg hover:bg-purple-100/80 shadow transition-all">
+                <Button variant="ghost" size="icon" className="h-10 w-10 shrink-0 rounded-lg hover:bg-purple-100/80 transition-all">
                   <Edit className="h-5 w-5" />
                 </Button>
               </DialogTrigger>
-              <DialogContent className="rounded-2xl shadow-2xl">
+              <DialogContent className="rounded-2xl">
                 <DialogHeader>
                   <DialogTitle className="text-xl">Society Settings</DialogTitle>
                 </DialogHeader>
