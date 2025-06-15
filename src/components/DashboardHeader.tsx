@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -173,7 +172,7 @@ const SafetyDeviceBadge = ({ device }: { device: string }) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
   return (
-    <Button variant="outline" size="sm" className="cursor-default border-[#ba48b3] text-[#3d007d] hover:bg-[#fd6ed0] hover:text-[#3d007d] hover:border-[#3d007d]">
+    <Button variant="outline" size="sm" className="cursor-default hover:bg-[#fd6ed0]/10 hover:border-[#ba48b3]/50">
       {formattedDevice}
     </Button>
   );
@@ -233,7 +232,7 @@ export const DashboardHeader = () => {
   };
 
   return (
-    <header className="bg-gradient-to-b from-white via-[#fd6ed0]/10 to-white border-b border-[#ba48b3]/30">
+    <header className="bg-white border-b border-gray-200">
       <div className="px-6 py-3 lg:py-4">
         <div className="flex items-center justify-between gap-4">
           {/* BRAND */}
@@ -257,15 +256,15 @@ export const DashboardHeader = () => {
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="shrink-0 hover:bg-[#fd6ed0]/20 hover:text-[#3d007d] rounded-lg transition-all flex items-center gap-2 text-base font-medium"
+                  className="shrink-0 hover:bg-[#fd6ed0]/10 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
                 >
                   <Users className="w-12 h-12" />
                   <span className="hidden lg:inline ml-1">Resident Directory</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-5xl w-[90vw] h-[90vh] flex flex-col p-0 rounded-2xl">
-                <DialogHeader className="p-4 lg:p-6 border-b border-[#ba48b3]/30">
-                  <DialogTitle className="text-xl text-[#3d007d]">Resident Information</DialogTitle>
+                <DialogHeader className="p-4 lg:p-6 border-b">
+                  <DialogTitle className="text-xl">Resident Information</DialogTitle>
                 </DialogHeader>
                 <div className="flex-1 flex flex-col lg:flex-row min-h-0">
                   {/* Left pane: Resident List */}
@@ -402,15 +401,15 @@ export const DashboardHeader = () => {
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="shrink-0 hover:bg-[#fd6ed0]/20 hover:text-[#3d007d] rounded-lg transition-all flex items-center gap-2 text-base font-medium"
+                  className="shrink-0 hover:bg-[#fd6ed0]/10 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
                 >
                   <Building2 className="w-12 h-12" />
                   <span className="hidden md:inline">Society Info</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="rounded-2xl max-w-5xl w-[96vw] p-0 border-[#ba48b3]/30 shadow-xl bg-white">
-                <DialogHeader className="px-8 pt-8 pb-4 border-b border-[#ba48b3]/30">
-                  <DialogTitle className="text-2xl font-semibold text-[#3d007d]">
+              <DialogContent className="rounded-2xl max-w-5xl w-[96vw] p-0 shadow-xl bg-white">
+                <DialogHeader className="px-8 pt-8 pb-4 border-b">
+                  <DialogTitle className="text-2xl font-semibold">
                     Society Information
                   </DialogTitle>
                   <DialogDescription className="hidden" />
@@ -633,7 +632,7 @@ export const DashboardHeader = () => {
               </DialogContent>
             </Dialog>
             {/* Sign Out Button */}
-            <Button variant="ghost" size="lg" className="shrink-0 hover:bg-[#fd6ed0]/20 hover:text-[#3d007d] rounded-lg transition-all text-base font-medium">
+            <Button variant="ghost" size="lg" className="shrink-0 hover:bg-gray-100 rounded-lg transition-all text-base font-medium">
               <LogOut className="w-12 h-12" />
               <span className="hidden lg:inline ml-1">Sign Out</span>
             </Button>
