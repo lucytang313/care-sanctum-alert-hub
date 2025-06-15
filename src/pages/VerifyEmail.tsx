@@ -23,20 +23,16 @@ const VerifyEmail = () => {
   }, [countdown]);
 
   const handleChange = (index: number, value: string) => {
-    if (value.length > 1) return; // Only allow single digit
-    
+    if (value.length > 1) return;
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-
-    // Move to next input if value is entered
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
   };
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Move to previous input on backspace if current input is empty
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
@@ -52,10 +48,7 @@ const VerifyEmail = () => {
       });
       return;
     }
-
     setIsLoading(true);
-    
-    // Simulate verification process
     setTimeout(() => {
       setIsLoading(false);
       toast({
@@ -68,8 +61,8 @@ const VerifyEmail = () => {
 
   const handleResendCode = async () => {
     setCountdown(60);
-    setOtp(['', '', '', '', '', '']); // Clear OTP
-    inputRefs.current[0]?.focus(); // Focus first input
+    setOtp(['', '', '', '', '', '']);
+    inputRefs.current[0]?.focus();
     toast({
       title: "Code Sent",
       description: "A new verification code has been sent to your email.",
@@ -105,14 +98,19 @@ const VerifyEmail = () => {
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
+                className="
+                  w-14 h-16 text-center text-2xl font-semibold border-2 rounded-xl
+                  border-cyan-400 focus:border-cyan-600 bg-white text-gray-900
+                  transition-all duration-200 shadow-sm hover:shadow-cyan-200/40
+                  focus:shadow-cyan-300/40 outline-none
+                "
               />
             ))}
           </div>
 
           <Button 
             onClick={handleVerify}
-            className="w-full"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white"
             disabled={isLoading || otp.join('').length !== 6}
           >
             {isLoading ? 'Verifying...' : 'Verify Email'}
@@ -126,7 +124,7 @@ const VerifyEmail = () => {
               variant="ghost"
               onClick={handleResendCode}
               disabled={countdown > 0}
-              className="text-blue-600 hover:text-blue-700"
+              className="text-cyan-600 hover:text-cyan-700"
             >
               {countdown > 0 ? `Resend in ${countdown}s` : 'Resend Code'}
             </Button>

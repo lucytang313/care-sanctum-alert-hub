@@ -16,8 +16,6 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate login process
     setTimeout(() => {
       setIsLoading(false);
       navigate('/');
@@ -25,8 +23,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-gray-900 border-gray-700">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
         <CardHeader className="text-center space-y-4">
           <div className="flex justify-center">
             <img 
@@ -35,8 +33,8 @@ const Login = () => {
               className="h-16 w-auto"
             />
           </div>
-          <CardTitle className="text-2xl font-bold text-white">Welcome Back</CardTitle>
-          <CardDescription className="text-gray-400">
+          <CardTitle className="text-2xl font-bold text-gray-900">Welcome Back</CardTitle>
+          <CardDescription className="text-gray-600">
             Sign in to your CareStanctum account
           </CardDescription>
         </CardHeader>
@@ -60,7 +58,7 @@ const Login = () => {
               />
               <button
                 type="button"
-                className="absolute right-3 top-4 text-gray-400 hover:text-gray-300"
+                className="absolute right-3 top-4 text-gray-400 hover:text-gray-600"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -76,9 +74,9 @@ const Login = () => {
             </Button>
 
             <div className="text-center">
-              <span className="text-sm text-gray-400">
+              <span className="text-sm text-gray-600">
                 Don't have an account?{' '}
-                <Link to="/signup" className="text-cyan-400 hover:text-cyan-300 font-medium">
+                <Link to="/signup" className="text-cyan-600 hover:text-cyan-700 font-medium">
                   Sign up
                 </Link>
               </span>
