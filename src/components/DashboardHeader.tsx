@@ -237,6 +237,7 @@ export const DashboardHeader = () => {
         <div className="flex items-center justify-between gap-4">
           {/* BRAND */}
           <div className="flex items-center space-x-4 shrink-0">
+            {/* ... keep existing brand/logo code the same ... */}
             <div className="flex items-center space-x-3">
               <img
                 src="/lovable-uploads/ce42e031-be3b-4c21-8b06-f0ea6e60fe7e.png"
@@ -258,7 +259,7 @@ export const DashboardHeader = () => {
                   size="lg"
                   className="shrink-0 hover:bg-purple-100/70 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
                 >
-                  <Users className="h-5 w-5" />
+                  <Users className="w-6 h-6 sm:w-5 sm:h-5" />
                   <span className="hidden lg:inline ml-1">Resident Directory</span>
                 </Button>
               </DialogTrigger>
@@ -403,7 +404,7 @@ export const DashboardHeader = () => {
                   size="lg"
                   className="shrink-0 hover:bg-purple-100/80 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
                 >
-                  <Building2 className="h-5 w-5" />
+                  <Building2 className="w-6 h-6 sm:w-5 sm:h-5" />
                   <span className="hidden md:inline">Society Info</span>
                 </Button>
               </DialogTrigger>
@@ -633,7 +634,7 @@ export const DashboardHeader = () => {
             </Dialog>
             {/* Sign Out Button */}
             <Button variant="ghost" size="lg" className="shrink-0 hover:bg-purple-100/70 rounded-lg transition-all text-base font-medium">
-              <LogOut className="h-5 w-5" />
+              <LogOut className="w-6 h-6 sm:w-5 sm:h-5" />
               <span className="hidden lg:inline ml-1">Sign Out</span>
             </Button>
           </div>
