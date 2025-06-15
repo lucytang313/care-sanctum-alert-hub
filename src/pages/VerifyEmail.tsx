@@ -1,15 +1,15 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { toast } from '@/hooks/use-toast';
 
 const VerifyEmail = () => {
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [isLoading, setIsLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -22,8 +22,29 @@ const VerifyEmail = () => {
     }
   }, [countdown]);
 
+  const handleChange = (index: number, value: string) => {
+    if (value.length > 1) return; // Only allow single digit
+    
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Move to next input if value is entered
+    if (value && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Move to previous input on backspace if current input is empty
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
   const handleVerify = async () => {
-    if (otp.length !== 6) {
+    const otpString = otp.join('');
+    if (otpString.length !== 6) {
       toast({
         title: "Invalid Code",
         description: "Please enter a 6-digit verification code.",
@@ -47,6 +68,8 @@ const VerifyEmail = () => {
 
   const handleResendCode = async () => {
     setCountdown(60);
+    setOtp(['', '', '', '', '', '']); // Clear OTP
+    inputRefs.current[0]?.focus(); // Focus first input
     toast({
       title: "Code Sent",
       description: "A new verification code has been sent to your email.",
@@ -71,28 +94,26 @@ const VerifyEmail = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex flex-col items-center space-y-4">
-            <InputOTP
-              maxLength={6}
-              value={otp}
-              onChange={setOtp}
-              className="gap-2"
-            >
-              <InputOTPGroup>
-                <InputOTPSlot index={0} />
-                <InputOTPSlot index={1} />
-                <InputOTPSlot index={2} />
-                <InputOTPSlot index={3} />
-                <InputOTPSlot index={4} />
-                <InputOTPSlot index={5} />
-              </InputOTPGroup>
-            </InputOTP>
+          <div className="flex justify-center space-x-3">
+            {otp.map((digit, index) => (
+              <input
+                key={index}
+                ref={(el) => (inputRefs.current[index] = el)}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={digit}
+                onChange={(e) => handleChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+                className="w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
+              />
+            ))}
           </div>
 
           <Button 
             onClick={handleVerify}
             className="w-full"
-            disabled={isLoading || otp.length !== 6}
+            disabled={isLoading || otp.join('').length !== 6}
           >
             {isLoading ? 'Verifying...' : 'Verify Email'}
           </Button>
