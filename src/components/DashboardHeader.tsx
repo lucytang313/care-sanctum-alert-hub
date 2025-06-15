@@ -286,8 +286,9 @@ export const DashboardHeader = () => {
                   <span className="hidden md:inline">Society Info</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="rounded-2xl max-w-3xl w-[95vw] p-0">
-                <DialogHeader className="p-6 border-b">
+              {/* Custom: larger, cleaner dialog and remove stats */}
+              <DialogContent className="rounded-2xl max-w-4xl w-[98vw] p-0 shadow-none border-none">
+                <DialogHeader className="p-8 border-b">
                   <DialogTitle className="text-2xl flex items-center gap-3">
                     <div className="bg-purple-100 p-2 rounded-lg">
                       <Building2 className="h-6 w-6 text-purple-600" />
@@ -295,62 +296,52 @@ export const DashboardHeader = () => {
                     Society Information
                   </DialogTitle>
                 </DialogHeader>
-                <div className="p-6 grid md:grid-cols-2 gap-8">
+                <div className="p-8 sm:p-10 grid md:grid-cols-2 gap-10 items-start max-h-[72vh] overflow-y-auto">
                   {/* Left Column: Society Details */}
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-4">
+                  <div className="space-y-8 min-w-0">
+                    <div className="flex items-center gap-6">
                       <img
                         src={society.logoUrl ?? "/lovable-uploads/ce42e031-be3b-4c21-8b06-f0ea6e60fe7e.png"}
                         alt={society.name}
-                        className="h-20 w-20 rounded-xl bg-white border object-cover"
+                        className="h-24 w-24 rounded-2xl bg-white border object-cover shadow-sm"
                       />
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900">{society.name}</h3>
-                        <p className="text-sm text-gray-500">ID: {society.id}</p>
+                      <div className="min-w-0">
+                        <h3 className="text-2xl font-bold text-gray-900 truncate">{society.name}</h3>
+                        <p className="text-base text-gray-500 truncate">ID: {society.id}</p>
                       </div>
                     </div>
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base">Quick Stats</CardTitle>
-                      </CardHeader>
-                      <CardContent className="grid grid-cols-2 gap-4 text-center">
-                        <div>
-                          <p className="text-2xl font-bold">{mockResidents.length}</p>
-                          <p className="text-sm text-muted-foreground">Residents</p>
-                        </div>
-                        <div>
-                          <p className="text-2xl font-bold">{mockStaff.length}</p>
-                          <p className="text-sm text-muted-foreground">Staff</p>
-                        </div>
-                      </CardContent>
-                    </Card>
+                    <div className="mt-8">
+                      <p className="text-gray-700 text-md leading-relaxed">
+                        Welcome to <span className="font-semibold">{society.name}</span>, a premium residency designed to provide safety, comfort, and care for all residents. Please reach out to one of our staff members below for any assistance.
+                      </p>
+                    </div>
                   </div>
 
                   {/* Right Column: Staff Members */}
-                  <div>
-                    <h4 className="text-lg font-semibold flex items-center gap-2 mb-4">
+                  <div className="min-w-0">
+                    <h4 className="text-xl font-semibold flex items-center gap-2 mb-6">
                       <UserCog2 className="h-5 w-5 text-purple-600" />
                       Staff Members
                     </h4>
-                    <div className="space-y-3">
+                    <div className="flex flex-col gap-4 max-h-[49vh] overflow-y-auto pr-1">
                       {mockStaff.map(staff => (
-                        <div key={staff.id} className="flex items-center gap-4 p-3 rounded-lg border bg-white hover:bg-gray-50/50 transition-all">
-                          <div className="w-11 h-11 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-bold text-md shrink-0">
+                        <div key={staff.id} className="flex items-center gap-4 p-4 rounded-xl border bg-white hover:bg-purple-50/50 transition-colors min-w-0">
+                          <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-bold text-lg shrink-0">
                             {staff.photoInitials}
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="font-semibold text-gray-800 truncate">{staff.name}</p>
-                            <p className="text-sm text-gray-500">{staff.role}</p>
+                            <p className="text-sm text-gray-500 truncate">{staff.role}</p>
                           </div>
-                          <div className="text-right shrink-0">
-                            <p className="text-sm text-gray-600 flex items-center justify-end gap-1.5 whitespace-nowrap">
-                              <Phone className="h-3.5 w-3.5 text-gray-400" />
+                          <div className="text-right shrink-0 flex flex-col space-y-1">
+                            <span className="flex items-center gap-1.5 text-xs text-gray-600 whitespace-nowrap">
+                              <Phone className="h-4 w-4 text-gray-400" />
                               {staff.phone}
-                            </p>
-                            <p className="text-sm text-gray-600 flex items-center justify-end gap-1.5 whitespace-nowrap">
-                              <Mail className="h-3.5 w-3.5 text-gray-400" />
+                            </span>
+                            <span className="flex items-center gap-1.5 text-xs text-gray-600 whitespace-nowrap">
+                              <Mail className="h-4 w-4 text-gray-400" />
                               {staff.email}
-                            </p>
+                            </span>
                           </div>
                         </div>
                       ))}
