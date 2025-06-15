@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Calendar, X, AlertCircle, Loader2, CheckCircle2, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -46,61 +45,44 @@ export const Sidebar = ({
       {/* Today's Overview */}
       <div className="p-4 lg:p-6 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Today's Overview</h2>
-        
         <div className="space-y-3">
-          <Card className="border-l-4 border-l-red-500">
-            <CardContent className="p-3 lg:p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs lg:text-sm text-gray-600">Yet to be Attended</p>
-                  <p className="text-xl lg:text-2xl font-bold text-red-600">{stats.yetToAttend}</p>
-                </div>
-                <div className="w-6 h-6 lg:w-8 lg:h-8 bg-red-100 rounded-full flex items-center justify-center">
-                  <AlertCircle className="h-4 w-4 lg:h-5 lg:w-5 text-red-500" />
-                </div>
+          <Card className="bg-red-50 shadow-none border-0">
+            <CardContent className="p-4 flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-red-700">Yet to be Attended</p>
+                <p className="text-2xl font-bold text-red-600">{stats.yetToAttend}</p>
               </div>
+              <AlertCircle className="h-7 w-7 text-red-500" />
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-yellow-500">
-            <CardContent className="p-3 lg:p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs lg:text-sm text-gray-600">Attending</p>
-                  <p className="text-xl lg:text-2xl font-bold text-yellow-600">{stats.attending}</p>
-                </div>
-                <div className="w-6 h-6 lg:w-8 lg:h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                  <Loader2 className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-500 animate-spin" />
-                </div>
+          <Card className="bg-yellow-50 shadow-none border-0">
+            <CardContent className="p-4 flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-yellow-700">Attending</p>
+                <p className="text-2xl font-bold text-yellow-500">{stats.attending}</p>
               </div>
+              <Loader2 className="h-7 w-7 text-yellow-500" />
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-green-500">
-            <CardContent className="p-3 lg:p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs lg:text-sm text-gray-600">Attended</p>
-                  <p className="text-xl lg:text-2xl font-bold text-green-600">{stats.attended}</p>
-                </div>
-                <div className="w-6 h-6 lg:w-8 lg:h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <CheckCircle2 className="h-4 w-4 lg:h-5 lg:w-5 text-green-500" />
-                </div>
+          <Card className="bg-green-50 shadow-none border-0">
+            <CardContent className="p-4 flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-green-700">Attended</p>
+                <p className="text-2xl font-bold text-green-600">{stats.attended}</p>
               </div>
+              <CheckCircle2 className="h-7 w-7 text-green-500" />
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-blue-500">
-            <CardContent className="p-3 lg:p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs lg:text-sm text-gray-600">Total Today</p>
-                  <p className="text-xl lg:text-2xl font-bold text-blue-600">{stats.total}</p>
-                </div>
-                <div className="w-6 h-6 lg:w-8 lg:h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <List className="h-4 w-4 lg:h-5 lg:w-5 text-blue-500" />
-                </div>
+          <Card className="bg-blue-50 shadow-none border-0">
+            <CardContent className="p-4 flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-blue-700">Total Today</p>
+                <p className="text-2xl font-bold text-blue-700">{stats.total}</p>
               </div>
+              <List className="h-7 w-7 text-blue-500" />
             </CardContent>
           </Card>
         </div>
