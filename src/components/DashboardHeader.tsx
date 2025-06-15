@@ -426,9 +426,6 @@ export const DashboardHeader = () => {
                     <TabsTrigger value="staff" className="flex-1 !rounded-md text-[17px] font-medium data-[state=active]:bg-white data-[state=active]:text-primary">
                       Staff Directory
                     </TabsTrigger>
-                    <TabsTrigger value="settings" className="flex-1 !rounded-md text-[17px] font-medium data-[state=active]:bg-white data-[state=active]:text-primary">
-                      Settings
-                    </TabsTrigger>
                   </TabsList>
                   {/* SOCIETY OVERVIEW */}
                   <TabsContent value="overview">
@@ -629,12 +626,6 @@ export const DashboardHeader = () => {
                           </div>
                         )}
                       </div>
-                    </div>
-                  </TabsContent>
-                  {/* SETTINGS TAB (Empty for now) */}
-                  <TabsContent value="settings">
-                    <div className="h-[33vh] min-h-[200px] flex items-center justify-center text-gray-400 text-lg">
-                      Settings tab is under development.
                     </div>
                   </TabsContent>
                 </Tabs>
