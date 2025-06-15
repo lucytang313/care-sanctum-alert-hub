@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -158,10 +159,10 @@ const mockStaff = [
 ];
 
 const departmentColors: { [key: string]: string } = {
-  Security: "bg-[#fd6ed0] text-[#3d007d] border-[#ba48b3]",
-  Administration: "bg-[#ba48b3] text-white border-[#3d007d]",
-  Maintenance: "bg-[#3d007d] text-white border-[#ba48b3]",
-  Housekeeping: "bg-gradient-to-r from-[#fd6ed0] to-[#ba48b3] text-[#3d007d] border-[#3d007d]",
+  Security: "bg-red-100 text-red-700 border-red-200",
+  Administration: "bg-blue-100 text-blue-700 border-blue-200",
+  Maintenance: "bg-green-100 text-green-700 border-green-200",
+  Housekeeping: "bg-purple-100 text-purple-700 border-purple-200",
 };
 
 // --- COMPONENTS ---
@@ -172,7 +173,7 @@ const SafetyDeviceBadge = ({ device }: { device: string }) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
   return (
-    <Button variant="outline" size="sm" className="cursor-default hover:bg-[#fd6ed0]/10 hover:border-[#ba48b3]/50">
+    <Button variant="outline" size="sm" className="cursor-default">
       {formattedDevice}
     </Button>
   );
@@ -243,7 +244,7 @@ export const DashboardHeader = () => {
                 alt="CareStanctum"
                 className="h-10 sm:h-12 w-auto transition-all duration-300 rounded-xl"
               />
-              <div className="hidden md:block bg-gradient-to-r from-[#3d007d] via-[#ba48b3] to-[#fd6ed0] text-white px-4 py-1.5 rounded-lg text-lg lg:text-xl font-extrabold tracking-tight transition-all duration-300">
+              <div className="hidden md:block bg-gradient-to-r from-[#3d007d] to-[#ba48b3] text-white px-4 py-1.5 rounded-lg text-lg lg:text-xl font-extrabold tracking-tight transition-all duration-300">
                 Emergency Response Dashboard
               </div>
             </div>
@@ -256,7 +257,7 @@ export const DashboardHeader = () => {
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="shrink-0 hover:bg-[#fd6ed0]/10 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
+                  className="shrink-0 hover:bg-gray-100 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
                 >
                   <Users className="w-12 h-12" />
                   <span className="hidden lg:inline ml-1">Resident Directory</span>
@@ -268,13 +269,13 @@ export const DashboardHeader = () => {
                 </DialogHeader>
                 <div className="flex-1 flex flex-col lg:flex-row min-h-0">
                   {/* Left pane: Resident List */}
-                  <div className="w-full lg:w-[320px] lg:border-r border-[#ba48b3]/30 flex flex-col shrink-0">
-                    <div className="p-4 border-b border-[#ba48b3]/30">
+                  <div className="w-full lg:w-[320px] lg:border-r border-gray-200 flex flex-col shrink-0">
+                    <div className="p-4 border-b border-gray-200">
                       <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#ba48b3]" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                         <Input 
                           placeholder="Search by name or flat..." 
-                          className="pl-9 border-[#ba48b3]/50 focus:border-[#3d007d]"
+                          className="pl-9"
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -285,18 +286,18 @@ export const DashboardHeader = () => {
                         <div 
                           key={resident.id}
                           onClick={() => setSelectedResident(resident)}
-                          className={`p-4 flex items-center space-x-4 cursor-pointer border-b border-[#ba48b3]/20 hover:bg-[#fd6ed0]/10 transition-colors ${selectedResident?.id === resident.id ? 'bg-[#ba48b3]/20' : ''}`}
+                          className={`p-4 flex items-center space-x-4 cursor-pointer border-b border-gray-100 hover:bg-gray-50 transition-colors ${selectedResident?.id === resident.id ? 'bg-blue-50' : ''}`}
                         >
-                          <div className="w-10 h-10 rounded-full bg-[#fd6ed0]/20 text-[#3d007d] flex items-center justify-center font-bold shrink-0">
+                          <div className="w-10 h-10 rounded-full bg-gray-100 text-gray-700 flex items-center justify-center font-bold shrink-0">
                             {resident.avatarInitials}
                           </div>
                           <div>
-                            <p className="font-semibold text-[#3d007d]">{resident.name}</p>
-                            <p className="text-sm text-[#ba48b3]">Flat: {resident.flatNumber}</p>
+                            <p className="font-semibold text-gray-900">{resident.name}</p>
+                            <p className="text-sm text-gray-500">Flat: {resident.flatNumber}</p>
                           </div>
                         </div>
                       )) : (
-                        <div className="p-8 text-center text-[#ba48b3]">
+                        <div className="p-8 text-center text-gray-500">
                           <p>No residents found.</p>
                         </div>
                       )}
@@ -307,49 +308,49 @@ export const DashboardHeader = () => {
                     {selectedResident ? (
                       <div>
                         <div className="flex items-center space-x-4 mb-6">
-                          <div className="w-16 h-16 rounded-full bg-[#fd6ed0]/20 text-[#3d007d] flex items-center justify-center font-bold text-2xl shrink-0">
+                          <div className="w-16 h-16 rounded-full bg-gray-100 text-gray-700 flex items-center justify-center font-bold text-2xl shrink-0">
                             {selectedResident.avatarInitials}
                           </div>
                           <div>
-                            <h2 className="text-2xl font-bold text-[#3d007d]">{selectedResident.name}</h2>
-                            <p className="text-[#ba48b3]">{selectedResident.age} years old</p>
+                            <h2 className="text-2xl font-bold text-gray-900">{selectedResident.name}</h2>
+                            <p className="text-gray-600">{selectedResident.age} years old</p>
                           </div>
                         </div>
 
                         <Tabs defaultValue="profile">
-                          <TabsList className="grid w-full grid-cols-3 bg-[#fd6ed0]/10">
-                            <TabsTrigger value="profile" className="data-[state=active]:bg-[#3d007d] data-[state=active]:text-white">Profile</TabsTrigger>
-                            <TabsTrigger value="medical" className="data-[state=active]:bg-[#3d007d] data-[state=active]:text-white">Medical Info</TabsTrigger>
-                            <TabsTrigger value="alerts" className="data-[state=active]:bg-[#3d007d] data-[state=active]:text-white">Recent Alerts</TabsTrigger>
+                          <TabsList className="grid w-full grid-cols-3">
+                            <TabsTrigger value="profile">Profile</TabsTrigger>
+                            <TabsTrigger value="medical">Medical Info</TabsTrigger>
+                            <TabsTrigger value="alerts">Recent Alerts</TabsTrigger>
                           </TabsList>
                           <TabsContent value="profile" className="pt-6">
                             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                              <Card className="border-[#ba48b3]/30">
+                              <Card>
                                 <CardHeader>
-                                  <CardTitle className="text-lg flex items-center text-[#3d007d]"><User className="mr-2 h-5 w-5 text-[#ba48b3]" /> Contact Information</CardTitle>
+                                  <CardTitle className="text-lg flex items-center"><User className="mr-2 h-5 w-5" /> Contact Information</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-4 text-sm">
-                                  <div className="flex items-center"><Home className="w-4 h-4 mr-3 text-[#ba48b3]"/> Flat: <span className="font-medium ml-2 text-[#3d007d]">{selectedResident.flatNumber}</span></div>
-                                  <div className="flex items-center"><Phone className="w-4 h-4 mr-3 text-[#ba48b3]"/> Phone: <span className="font-medium ml-2 text-[#3d007d]">{selectedResident.phone}</span></div>
-                                  <div className="flex items-center"><Mail className="w-4 h-4 mr-3 text-[#ba48b3]"/> Email: <span className="font-medium ml-2 text-[#3d007d]">{selectedResident.email}</span></div>
+                                  <div className="flex items-center"><Home className="w-4 h-4 mr-3 text-gray-400"/> Flat: <span className="font-medium ml-2">{selectedResident.flatNumber}</span></div>
+                                  <div className="flex items-center"><Phone className="w-4 h-4 mr-3 text-gray-400"/> Phone: <span className="font-medium ml-2">{selectedResident.phone}</span></div>
+                                  <div className="flex items-center"><Mail className="w-4 h-4 mr-3 text-gray-400"/> Email: <span className="font-medium ml-2">{selectedResident.email}</span></div>
                                 </CardContent>
                               </Card>
-                              <Card className="border-[#ba48b3]/30">
+                              <Card>
                                 <CardHeader>
-                                  <CardTitle className="text-lg flex items-center text-[#3d007d]"><Users className="mr-2 h-5 w-5 text-[#ba48b3]" /> Emergency Contacts</CardTitle>
+                                  <CardTitle className="text-lg flex items-center"><Users className="mr-2 h-5 w-5" /> Emergency Contacts</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                   {selectedResident.emergencyContacts.map(contact => (
                                     <div key={contact.name}>
-                                      <p className="font-semibold text-[#3d007d]">{contact.name} <span className="text-xs font-normal text-white bg-[#ba48b3] px-2 py-0.5 rounded-full ml-1">{contact.relation}</span></p>
-                                      <p className="text-sm text-[#ba48b3]">{contact.phone}</p>
+                                      <p className="font-semibold">{contact.name} <span className="text-xs font-normal text-white bg-blue-500 px-2 py-0.5 rounded-full ml-1">{contact.relation}</span></p>
+                                      <p className="text-sm text-gray-600">{contact.phone}</p>
                                     </div>
                                   ))}
                                 </CardContent>
                               </Card>
-                              <Card className="xl:col-span-2 border-[#ba48b3]/30">
+                              <Card className="xl:col-span-2">
                                 <CardHeader>
-                                  <CardTitle className="text-lg flex items-center text-[#3d007d]"><ShieldAlert className="mr-2 h-5 w-5 text-[#ba48b3]" /> Safety Devices</CardTitle>
+                                  <CardTitle className="text-lg flex items-center"><ShieldAlert className="mr-2 h-5 w-5" /> Safety Devices</CardTitle>
                                 </CardHeader>
                                 <CardContent className="flex flex-wrap gap-2">
                                   {selectedResident.safetyDevices.map(device => (
@@ -360,25 +361,25 @@ export const DashboardHeader = () => {
                             </div>
                           </TabsContent>
                           <TabsContent value="medical" className="pt-6">
-                             <Card className="border-[#ba48b3]/30">
-                                <CardHeader><CardTitle className="text-[#3d007d]">Medical Information</CardTitle></CardHeader>
-                                <CardContent><p className="text-[#3d007d]">{selectedResident.medicalInfo || "No information provided."}</p></CardContent>
+                             <Card>
+                                <CardHeader><CardTitle>Medical Information</CardTitle></CardHeader>
+                                <CardContent><p>{selectedResident.medicalInfo || "No information provided."}</p></CardContent>
                              </Card>
                           </TabsContent>
                           <TabsContent value="alerts" className="pt-6">
-                            <Card className="border-[#ba48b3]/30">
-                                <CardHeader><CardTitle className="text-[#3d007d]">Recent Emergency Alerts</CardTitle></CardHeader>
+                            <Card>
+                                <CardHeader><CardTitle>Recent Emergency Alerts</CardTitle></CardHeader>
                                 <CardContent>
                                     {selectedResident.recentAlerts.length > 0 ? (
                                         <ul className="space-y-2">
                                         {selectedResident.recentAlerts.map(alert => (
-                                            <li key={alert.id} className="text-sm text-[#3d007d]">
+                                            <li key={alert.id} className="text-sm">
                                                 <p><span className="font-semibold">{alert.description}</span> on {alert.timestamp.toLocaleDateString()}</p>
                                             </li>
                                         ))}
                                         </ul>
                                     ) : (
-                                        <p className="text-[#ba48b3]">No recent alerts for this resident.</p>
+                                        <p className="text-gray-500">No recent alerts for this resident.</p>
                                     )}
                                 </CardContent>
                              </Card>
@@ -386,7 +387,7 @@ export const DashboardHeader = () => {
                         </Tabs>
                       </div>
                     ) : (
-                      <div className="flex items-center justify-center h-full text-[#ba48b3]">
+                      <div className="flex items-center justify-center h-full text-gray-500">
                         <p>Select a resident to see their details.</p>
                       </div>
                     )}
@@ -401,7 +402,7 @@ export const DashboardHeader = () => {
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="shrink-0 hover:bg-[#fd6ed0]/10 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
+                  className="shrink-0 hover:bg-gray-100 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
                 >
                   <Building2 className="w-12 h-12" />
                   <span className="hidden md:inline">Society Info</span>
@@ -419,11 +420,11 @@ export const DashboardHeader = () => {
                   onValueChange={(v) => setSocietyInfoTab(v)}
                   className="px-8 pt-2"
                 >
-                  <TabsList className="w-full bg-[#fd6ed0]/10 rounded-md mb-6 flex justify-start">
-                    <TabsTrigger value="overview" className="flex-1 !rounded-md text-[17px] font-medium data-[state=active]:bg-[#3d007d] data-[state=active]:text-white">
+                  <TabsList className="w-full mb-6 flex justify-start">
+                    <TabsTrigger value="overview" className="flex-1 text-[17px] font-medium">
                       Society Overview
                     </TabsTrigger>
-                    <TabsTrigger value="staff" className="flex-1 !rounded-md text-[17px] font-medium data-[state=active]:bg-[#3d007d] data-[state=active]:text-white">
+                    <TabsTrigger value="staff" className="flex-1 text-[17px] font-medium">
                       Staff Directory
                     </TabsTrigger>
                   </TabsList>
@@ -431,54 +432,54 @@ export const DashboardHeader = () => {
                   <TabsContent value="overview">
                     <div className="grid sm:grid-cols-2 gap-6 pb-6">
                       {/* Society Details Card */}
-                      <div className="rounded-xl border border-[#ba48b3]/30 bg-white p-7 flex flex-col gap-3 min-w-0">
-                        <h3 className="font-semibold text-xl flex items-center gap-2 mb-2 text-[#3d007d]">
-                          <MapPin className="h-6 w-6 text-[#ba48b3]" />
+                      <div className="rounded-xl border bg-white p-7 flex flex-col gap-3 min-w-0">
+                        <h3 className="font-semibold text-xl flex items-center gap-2 mb-2">
+                          <MapPin className="h-6 w-6 text-gray-500" />
                           Society Details
                         </h3>
                         <div className="space-y-2">
                           <div>
-                            <div className="text-[#ba48b3] text-[15px]">Society Name</div>
-                            <div className="font-bold text-lg text-[#3d007d]">Golden Heights Residency</div>
+                            <div className="text-gray-500 text-[15px]">Society Name</div>
+                            <div className="font-bold text-lg">Golden Heights Residency</div>
                           </div>
                           <div>
-                            <div className="text-[#ba48b3] text-[15px]">Address</div>
-                            <div className="text-[#3d007d] text-base">
+                            <div className="text-gray-500 text-[15px]">Address</div>
+                            <div className="text-base">
                               123 Park Avenue, Sector 15, Gurgaon, Haryana 122001
                             </div>
                           </div>
                         </div>
-                        <hr className="my-4 border-[#ba48b3]/30"/>
+                        <hr className="my-4"/>
                         <div className="flex flex-wrap gap-x-12 gap-y-2">
                           <div>
-                            <div className="text-[#ba48b3] text-sm">Established</div>
-                            <div className="font-semibold text-[17px] text-[#3d007d]">2018</div>
+                            <div className="text-gray-500 text-sm">Established</div>
+                            <div className="font-semibold text-[17px]">2018</div>
                           </div>
                           <div>
-                            <div className="text-[#ba48b3] text-sm">Total Flats</div>
-                            <div className="font-semibold text-[17px] text-[#3d007d]">120</div>
+                            <div className="text-gray-500 text-sm">Total Flats</div>
+                            <div className="font-semibold text-[17px]">120</div>
                           </div>
                           <div>
-                            <div className="text-[#ba48b3] text-sm">Total Residents</div>
-                            <div className="font-semibold text-[17px] text-[#3d007d]">285</div>
+                            <div className="text-gray-500 text-sm">Total Residents</div>
+                            <div className="font-semibold text-[17px]">285</div>
                           </div>
                         </div>
                       </div>
                       {/* Contact Info Card */}
-                      <div className="rounded-xl border border-[#ba48b3]/30 bg-white p-7 flex flex-col gap-4 min-w-0">
-                        <h3 className="font-semibold text-xl flex items-center gap-2 mb-2 text-[#3d007d]">
-                          <Phone className="h-6 w-6 text-[#ba48b3]" />
+                      <div className="rounded-xl border bg-white p-7 flex flex-col gap-4 min-w-0">
+                        <h3 className="font-semibold text-xl flex items-center gap-2 mb-2">
+                          <Phone className="h-6 w-6 text-gray-500" />
                           Contact Information
                         </h3>
                         <div className="mb-4">
-                          <div className="text-[#ba48b3] text-[15px]">Emergency Number</div>
+                          <div className="text-gray-500 text-[15px]">Emergency Number</div>
                           <div className="font-bold text-lg text-red-600">
                             +91 9876543000
                           </div>
                         </div>
                         <div>
-                          <div className="text-[#ba48b3] text-[15px]">Management Company</div>
-                          <div className="font-semibold text-base text-[#3d007d]">
+                          <div className="text-gray-500 text-[15px]">Management Company</div>
+                          <div className="font-semibold text-base">
                             Prime Property Management
                           </div>
                         </div>
@@ -489,13 +490,13 @@ export const DashboardHeader = () => {
                   <TabsContent value="staff">
                     <div className="flex gap-6 h-[48vh] md:h-[55vh]">
                       {/* Staff List */}
-                      <div className="w-[260px] bg-[#fd6ed0]/5 border border-[#ba48b3]/30 rounded-xl flex flex-col max-h-full">
-                        <div className="p-3 border-b border-[#ba48b3]/30">
+                      <div className="w-[260px] bg-gray-50 border rounded-xl flex flex-col max-h-full">
+                        <div className="p-3 border-b">
                           <Input
                             placeholder="Search staff..."
                             value={staffSearch}
                             onChange={(e) => setStaffSearch(e.target.value)}
-                            className="rounded-lg text-[15px] border-[#ba48b3]/50 focus:border-[#3d007d]"
+                            className="rounded-lg text-[15px]"
                           />
                         </div>
                         <div className="overflow-y-auto flex-1">
@@ -507,20 +508,20 @@ export const DashboardHeader = () => {
                                   setSelectedStaff(staff);
                                   setStaffDetailTab("profile");
                                 }}
-                                className={`flex items-center gap-4 px-4 py-3 border-b border-[#ba48b3]/20 cursor-pointer hover:bg-[#fd6ed0]/10 transition-colors ${
+                                className={`flex items-center gap-4 px-4 py-3 border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors ${
                                   selectedStaff?.id === staff.id
-                                    ? "bg-[#ba48b3]/10"
+                                    ? "bg-blue-50"
                                     : ""
                                 }`}
                               >
-                                <div className="rounded-full border border-[#ba48b3]/30 w-10 h-10 flex items-center justify-center bg-white font-semibold text-[#3d007d]">
+                                <div className="rounded-full border w-10 h-10 flex items-center justify-center bg-white font-semibold">
                                   {staff.photoInitials}
                                 </div>
                                 <div className="min-w-0 flex-1">
-                                  <div className="font-medium text-[15px] text-[#3d007d] truncate">
+                                  <div className="font-medium text-[15px] truncate">
                                     {staff.name}
                                   </div>
-                                  <div className="text-xs text-[#ba48b3] truncate">
+                                  <div className="text-xs text-gray-500 truncate">
                                     {staff.role}
                                   </div>
                                   <StaffDeptBadge department={staff.department} />
@@ -528,7 +529,7 @@ export const DashboardHeader = () => {
                               </div>
                             ))
                           ) : (
-                            <div className="p-6 text-[#ba48b3] text-center">
+                            <div className="p-6 text-gray-500 text-center">
                               No staff found.
                             </div>
                           )}
@@ -542,53 +543,53 @@ export const DashboardHeader = () => {
                             onValueChange={setStaffDetailTab}
                             className="h-full flex flex-col"
                           >
-                            <TabsList className="bg-[#fd6ed0]/10 mb-4 rounded-md flex w-full gap-2 max-w-lg">
-                              <TabsTrigger value="profile" className="text-[15px] font-medium flex-1 !rounded-md data-[state=active]:bg-[#3d007d] data-[state=active]:text-white">
+                            <TabsList className="mb-4 flex w-full gap-2 max-w-lg">
+                              <TabsTrigger value="profile" className="text-[15px] font-medium flex-1">
                                 Profile
                               </TabsTrigger>
-                              <TabsTrigger value="responsibilities" className="text-[15px] font-medium flex-1 !rounded-md data-[state=active]:bg-[#3d007d] data-[state=active]:text-white">
+                              <TabsTrigger value="responsibilities" className="text-[15px] font-medium flex-1">
                                 Responsibilities
                               </TabsTrigger>
-                              <TabsTrigger value="emergency" className="text-[15px] font-medium flex-1 !rounded-md data-[state=active]:bg-[#3d007d] data-[state=active]:text-white">
+                              <TabsTrigger value="emergency" className="text-[15px] font-medium flex-1">
                                 Emergency Contact
                               </TabsTrigger>
                             </TabsList>
                             <TabsContent value="profile" className="flex-1">
                               <div className="flex items-center gap-6 mb-5">
-                                <div className="rounded-full font-bold border border-[#ba48b3]/30 w-16 h-16 flex items-center justify-center bg-white text-[#3d007d] text-2xl">
+                                <div className="rounded-full font-bold border w-16 h-16 flex items-center justify-center bg-white text-2xl">
                                   {selectedStaff.photoInitials}
                                 </div>
                                 <div>
-                                  <div className="font-bold text-xl text-[#3d007d]">{selectedStaff.name}</div>
-                                  <div className="text-base text-[#ba48b3]">{selectedStaff.role}</div>
+                                  <div className="font-bold text-xl">{selectedStaff.name}</div>
+                                  <div className="text-base text-gray-600">{selectedStaff.role}</div>
                                   <StaffDeptBadge department={selectedStaff.department} />
                                 </div>
                               </div>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                                <div className="border border-[#ba48b3]/30 rounded-xl p-5 min-w-0 bg-white">
-                                  <div className="font-semibold flex items-center gap-1 mb-2 text-[#3d007d]">
-                                    <Badge className="w-4 h-4 text-[#ba48b3]" /> Work Information
+                                <div className="border rounded-xl p-5 min-w-0 bg-white">
+                                  <div className="font-semibold flex items-center gap-1 mb-2">
+                                    <Badge className="w-4 h-4 text-gray-500" /> Work Information
                                   </div>
-                                  <div className="text-[15px] mb-1 text-[#ba48b3]">Shift</div>
-                                  <div className="mb-1 font-medium text-[#3d007d]">{selectedStaff.shift}</div>
-                                  <div className="text-[15px] mb-1 text-[#ba48b3]">Experience</div>
-                                  <div className="mb-1 font-medium text-[#3d007d]">{selectedStaff.experience}</div>
-                                  <div className="flex items-center text-[#ba48b3] text-sm gap-1 mt-2">
+                                  <div className="text-[15px] mb-1 text-gray-500">Shift</div>
+                                  <div className="mb-1 font-medium">{selectedStaff.shift}</div>
+                                  <div className="text-[15px] mb-1 text-gray-500">Experience</div>
+                                  <div className="mb-1 font-medium">{selectedStaff.experience}</div>
+                                  <div className="flex items-center text-gray-500 text-sm gap-1 mt-2">
                                     <svg className="w-4 h-4" stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24"><path d="M8 7V3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v4" /><rect width="16" height="15" x="4" y="7" rx="2" /><circle cx="16" cy="11" r="1" /></svg>
                                     Joined {selectedStaff.joined}
                                   </div>
                                 </div>
-                                <div className="border border-[#ba48b3]/30 rounded-xl p-5 min-w-0 bg-white">
-                                  <div className="font-semibold flex items-center gap-1 mb-2 text-[#3d007d]">
-                                    <Phone className="w-4 h-4 text-[#ba48b3]" /> Contact Information
+                                <div className="border rounded-xl p-5 min-w-0 bg-white">
+                                  <div className="font-semibold flex items-center gap-1 mb-2">
+                                    <Phone className="w-4 h-4 text-gray-500" /> Contact Information
                                   </div>
                                   <div className="flex flex-col gap-1">
-                                    <div className="text-[15px] flex items-center gap-2 text-[#3d007d]">
-                                      <Phone className="w-4 h-4 inline-block mr-2 text-[#ba48b3]" />
+                                    <div className="text-[15px] flex items-center gap-2">
+                                      <Phone className="w-4 h-4 inline-block mr-2 text-gray-400" />
                                       {selectedStaff.phone}
                                     </div>
-                                    <div className="text-[15px] flex items-center gap-2 text-[#3d007d]">
-                                      <Mail className="w-4 h-4 inline-block mr-2 text-[#ba48b3]" />
+                                    <div className="text-[15px] flex items-center gap-2">
+                                      <Mail className="w-4 h-4 inline-block mr-2 text-gray-400" />
                                       <span className="truncate">{selectedStaff.email}</span>
                                     </div>
                                   </div>
@@ -596,11 +597,11 @@ export const DashboardHeader = () => {
                               </div>
                               {/* Certifications */}
                               {selectedStaff.certifications && selectedStaff.certifications.length > 0 && (
-                                <div className="border border-[#ba48b3]/30 rounded-xl p-5 bg-white">
-                                  <div className="font-semibold mb-2 text-[#3d007d]">Certifications</div>
+                                <div className="border rounded-xl p-5 bg-white">
+                                  <div className="font-semibold mb-2">Certifications</div>
                                   <div className="flex flex-wrap gap-2">
                                     {selectedStaff.certifications.map((cert) => (
-                                      <span key={cert} className="bg-[#fd6ed0]/20 border border-[#ba48b3] text-[#3d007d] px-3 py-1 rounded-full text-xs font-medium">
+                                      <span key={cert} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">
                                         {cert}
                                       </span>
                                     ))}
@@ -610,18 +611,18 @@ export const DashboardHeader = () => {
                             </TabsContent>
                             {/* Dummy Responsibilities & Emergency Contact contents */}
                             <TabsContent value="responsibilities">
-                              <div className="border border-[#ba48b3]/30 rounded-xl p-6 bg-white">
-                                <p className="text-[#ba48b3]">Responsibilities for this staff member to be listed here...</p>
+                              <div className="border rounded-xl p-6 bg-white">
+                                <p className="text-gray-500">Responsibilities for this staff member to be listed here...</p>
                               </div>
                             </TabsContent>
                             <TabsContent value="emergency">
-                              <div className="border border-[#ba48b3]/30 rounded-xl p-6 bg-white">
-                                <p className="text-[#ba48b3]">Emergency contact details for this staff member go here...</p>
+                              <div className="border rounded-xl p-6 bg-white">
+                                <p className="text-gray-500">Emergency contact details for this staff member go here...</p>
                               </div>
                             </TabsContent>
                           </Tabs>
                         ) : (
-                          <div className="h-full flex items-center justify-center text-[#ba48b3]">
+                          <div className="h-full flex items-center justify-center text-gray-500">
                             Select a staff member to view details.
                           </div>
                         )}
