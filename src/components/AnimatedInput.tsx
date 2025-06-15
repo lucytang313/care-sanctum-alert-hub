@@ -33,10 +33,10 @@ export const AnimatedInput: React.FC<AnimatedInputProps> = ({
       <input
         {...props}
         className={cn(
-          "peer w-full px-4 py-4 border-2 rounded-lg bg-transparent transition-all duration-300 focus:outline-none text-white placeholder-transparent",
+          "peer w-full px-4 py-4 border-2 rounded-lg bg-white transition-all duration-300 focus:outline-none text-black placeholder-transparent",
           isFocused 
-            ? "border-cyan-400 shadow-lg shadow-cyan-400/20" 
-            : "border-gray-600 hover:border-gray-500",
+            ? "border-cyan-400 shadow-cyan-200"
+            : "border-gray-300 hover:border-cyan-200",
           className
         )}
         onFocus={handleFocus}
@@ -46,11 +46,15 @@ export const AnimatedInput: React.FC<AnimatedInputProps> = ({
       />
       <label
         className={cn(
-          "absolute left-4 text-gray-400 transition-all duration-300 pointer-events-none bg-gray-900 px-1",
+          "absolute left-4 px-1 transition-all duration-300 pointer-events-none bg-white",
           isFloating
-            ? "-top-2.5 text-sm text-cyan-400 font-medium"
-            : "top-4 text-base"
+            ? "-top-2.5 text-sm text-cyan-400 font-semibold"
+            : "top-4 text-base text-gray-500 font-medium"
         )}
+        style={{
+          // Animation for floating label
+          transition: 'all 0.2s cubic-bezier(.88,-0.41,.19,1.3)'
+        }}
       >
         {label}
       </label>
