@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Sidebar } from "@/components/Sidebar";
@@ -127,14 +128,14 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-white via-[#fd6ed0]/5 to-[#ba48b3]/10">
       <DashboardHeader />
       
       <div className="flex h-[calc(100vh-73px)] relative">
         {/* Mobile sidebar overlay */}
         {isSidebarOpen && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+            className="fixed inset-0 bg-[#3d007d] bg-opacity-50 z-40 lg:hidden"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}
@@ -160,12 +161,12 @@ const Index = () => {
         
         <main className="flex-1 flex flex-col min-w-0">
           {/* Mobile header with menu button */}
-          <div className="lg:hidden bg-white border-b border-gray-200 p-4">
+          <div className="lg:hidden bg-white border-b border-[#ba48b3]/30 p-4">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsSidebarOpen(true)}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 hover:bg-[#fd6ed0]/20 hover:text-[#3d007d]"
             >
               <Menu className="h-5 w-5" />
               <span>Filters & Stats</span>
@@ -176,14 +177,14 @@ const Index = () => {
             <div className="mb-6 lg:mb-8">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
                 <div>
-                  <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                  <h1 className="text-2xl lg:text-3xl font-bold text-[#3d007d] mb-2">
                     Emergency Alerts
                   </h1>
-                  <p className="text-gray-600">
+                  <p className="text-[#ba48b3]">
                     {filteredIncidents.length} incident{filteredIncidents.length !== 1 ? 's' : ''} found
                   </p>
                 </div>
-                <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-lg shadow-sm font-medium text-center lg:text-left">
+                <div className="bg-gradient-to-r from-[#3d007d] to-[#ba48b3] text-white px-4 py-2 rounded-lg shadow-sm font-medium text-center lg:text-left">
                   Jun 14, 2025
                 </div>
               </div>
@@ -191,11 +192,11 @@ const Index = () => {
             
             {filteredIncidents.length === 0 ? (
               <div className="text-center py-12 lg:py-16">
-                <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl text-gray-400">📋</span>
+                <div className="w-16 h-16 bg-[#fd6ed0]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl text-[#ba48b3]">📋</span>
                 </div>
-                <div className="text-xl font-medium text-gray-400 mb-2">No incidents found</div>
-                <p className="text-gray-500 max-w-md mx-auto px-4">
+                <div className="text-xl font-medium text-[#ba48b3] mb-2">No incidents found</div>
+                <p className="text-[#ba48b3]/70 max-w-md mx-auto px-4">
                   {selectedDate.toDateString() === new Date().toDateString() 
                     ? "All clear for today! No emergency incidents to report." 
                     : "No incidents recorded for the selected date."}
