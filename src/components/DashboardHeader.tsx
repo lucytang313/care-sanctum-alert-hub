@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Society, Resident, EmergencyIncident } from "@/types/emergency";
-import { Users, LogOut, Edit, Search, Home, Phone, Mail, ShieldAlert, User, Badge } from "lucide-react";
+import { Users, LogOut, Edit, Search, Home, Phone, Mail, ShieldAlert, User, Badge, Building2, UserCog2 } from "lucide-react";
 
 // Mock data for residents, using some names from the incident list for consistency
 const mockResidents: Resident[] = [
@@ -62,6 +63,33 @@ const mockResidents: Resident[] = [
   },
 ];
 
+const mockStaff = [
+  {
+    id: "staff-1",
+    name: "Mr. Anil Verma",
+    role: "Security Supervisor",
+    phone: "+91 9876543251",
+    email: "anil.verma@goldenheights.com",
+    photoInitials: "AV",
+  },
+  {
+    id: "staff-2",
+    name: "Mrs. Rita D'Souza",
+    role: "Facility Manager",
+    phone: "+91 9876543252",
+    email: "rita.dsouza@goldenheights.com",
+    photoInitials: "RD",
+  },
+  {
+    id: "staff-3",
+    name: "Mr. Suresh Kumar",
+    role: "Maintenance Lead",
+    phone: "+91 9876543253",
+    email: "suresh.kumar@goldenheights.com",
+    photoInitials: "SK",
+  }
+];
+
 const SafetyDeviceBadge = ({ device }: { device: string }) => {
   const formattedDevice = device.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   return <Button variant="outline" size="sm" className="cursor-default">{formattedDevice}</Button>;
@@ -73,8 +101,7 @@ export const DashboardHeader = () => {
     name: "Golden Heights Residency",
     logoUrl: undefined
   });
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [tempSocietyName, setTempSocietyName] = useState(society.name);
+  const [isSocietyInfoOpen, setIsSocietyInfoOpen] = useState(false);
   const [isResidentDirectoryOpen, setIsResidentDirectoryOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedResident, setSelectedResident] = useState<Resident | null>(mockResidents[0]);
@@ -90,11 +117,6 @@ export const DashboardHeader = () => {
       const url = URL.createObjectURL(file);
       setSociety(prev => ({ ...prev, logoUrl: url }));
     }
-  };
-
-  const handleSaveSettings = () => {
-    setSociety(prev => ({ ...prev, name: tempSocietyName }));
-    setIsSettingsOpen(false);
   };
 
   return (
@@ -257,38 +279,60 @@ export const DashboardHeader = () => {
               </DialogContent>
             </Dialog>
 
-            <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+            {/* Society Info Dialog */}
+            <Dialog open={isSocietyInfoOpen} onOpenChange={setIsSocietyInfoOpen}>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-10 w-10 shrink-0 rounded-lg hover:bg-purple-100/80 transition-all">
-                  <Edit className="h-5 w-5" />
+                <Button variant="ghost" size="lg" className="shrink-0 hover:bg-purple-100/80 rounded-lg transition-all flex items-center gap-2 text-base font-medium">
+                  <Building2 className="h-5 w-5" />
+                  <span className="hidden md:inline">Society Info</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="rounded-2xl">
+              <DialogContent className="rounded-2xl max-w-xl w-[95vw]">
                 <DialogHeader>
-                  <DialogTitle className="text-xl">Society Settings</DialogTitle>
+                  <DialogTitle className="text-xl flex items-center gap-2">
+                    <Building2 className="h-6 w-6 text-purple-600" />
+                    Society Information
+                  </DialogTitle>
                 </DialogHeader>
-                <div className="space-y-4">
+                <div className="flex items-center gap-4 py-4 mb-2">
+                  <img 
+                    src={society.logoUrl ?? "/lovable-uploads/ce42e031-be3b-4c21-8b06-f0ea6e60fe7e.png"} 
+                    alt={society.name} 
+                    className="h-16 w-16 rounded-xl bg-white border object-cover"
+                  />
                   <div>
-                    <Label htmlFor="society-name">Society Name</Label>
-                    <Input
-                      id="society-name"
-                      value={tempSocietyName}
-                      onChange={(e) => setTempSocietyName(e.target.value)}
-                      placeholder="Enter society name"
-                    />
+                    <div className="text-lg font-bold text-gray-800">{society.name}</div>
+                    <div className="text-sm text-gray-500">ID: {society.id}</div>
                   </div>
-                  <div>
-                    <Label htmlFor="society-logo">Society Logo</Label>
-                    <Input
-                      id="society-logo"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoUpload}
-                    />
+                </div>
+                <div className="mb-2">
+                  <div className="text-base font-semibold flex items-center gap-2 mb-2">
+                    <UserCog2 className="h-5 w-5 text-purple-600" />
+                    Staff Members
                   </div>
-                  <Button onClick={handleSaveSettings} className="w-full rounded-lg">
-                    Save Settings
-                  </Button>
+                  <div className="divide-y border rounded-xl overflow-hidden">
+                    {mockStaff.map(staff => (
+                      <div key={staff.id} className="flex items-center gap-4 px-4 py-3 bg-white hover:bg-purple-50 transition-colors">
+                        <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-bold text-md shrink-0">
+                          {staff.photoInitials}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-gray-800 truncate">{staff.name}</div>
+                          <div className="text-xs text-gray-500">{staff.role}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-gray-500 flex items-center gap-1">
+                            <Phone className="h-3 w-3 mr-1 opacity-50" />
+                            {staff.phone}
+                          </div>
+                          <div className="text-xs text-gray-500 flex items-center gap-1">
+                            <Mail className="h-3 w-3 mr-1 opacity-50" />
+                            {staff.email}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </DialogContent>
             </Dialog>
@@ -307,3 +351,4 @@ export const DashboardHeader = () => {
 };
 
 export default DashboardHeader;
+
