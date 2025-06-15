@@ -259,7 +259,7 @@ export const DashboardHeader = () => {
                   size="lg"
                   className="shrink-0 hover:bg-purple-100/70 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
                 >
-                  <Users className="w-8 h-8" />
+                  <Users className="w-12 h-12" />
                   <span className="hidden lg:inline ml-1">Resident Directory</span>
                 </Button>
               </DialogTrigger>
@@ -404,7 +404,7 @@ export const DashboardHeader = () => {
                   size="lg"
                   className="shrink-0 hover:bg-purple-100/80 rounded-lg transition-all flex items-center gap-2 text-base font-medium"
                 >
-                  <Building2 className="w-8 h-8" />
+                  <Building2 className="w-12 h-12" />
                   <span className="hidden md:inline">Society Info</span>
                 </Button>
               </DialogTrigger>
@@ -634,7 +634,7 @@ export const DashboardHeader = () => {
             </Dialog>
             {/* Sign Out Button */}
             <Button variant="ghost" size="lg" className="shrink-0 hover:bg-purple-100/70 rounded-lg transition-all text-base font-medium">
-              <LogOut className="w-8 h-8" />
+              <LogOut className="w-12 h-12" />
               <span className="hidden lg:inline ml-1">Sign Out</span>
             </Button>
           </div>
