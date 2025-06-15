@@ -98,18 +98,18 @@ export const DashboardHeader = () => {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
-      <div className="px-4 lg:px-6 py-3">
+    <header className="bg-gradient-to-b from-white via-purple-50 to-white shadow-xl border-b border-gray-100">
+      <div className="px-6 py-5 lg:py-7">
         <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center space-x-3 shrink-0">
+          <div className="flex items-center space-x-4 shrink-0">
             {/* CareStanctum Logo and Branding */}
             <div className="flex items-center space-x-3">
               <img 
                 src="/lovable-uploads/ce42e031-be3b-4c21-8b06-f0ea6e60fe7e.png" 
                 alt="CareStanctum" 
-                className="h-8 sm:h-10 w-auto"
+                className="h-12 sm:h-14 w-auto transition-all duration-300 rounded-xl shadow-sm"
               />
-              <div className="hidden md:block bg-purple-600 text-white px-3 py-1 rounded text-sm font-medium">
+              <div className="hidden md:block bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 text-white px-5 py-2 rounded-lg text-xl lg:text-2xl font-extrabold tracking-tight shadow-md drop-shadow-md transition-all duration-300">
                 Emergency Response Dashboard
               </div>
             </div>
@@ -119,12 +119,12 @@ export const DashboardHeader = () => {
             {/* Navigation Items */}
             <Dialog open={isResidentDirectoryOpen} onOpenChange={setIsResidentDirectoryOpen}>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="shrink-0">
-                  <Users className="h-4 w-4" />
-                  <span className="hidden lg:inline">Resident Directory</span>
+                <Button variant="ghost" size="lg" className="shrink-0 hover:bg-purple-100/70 rounded-lg transition-all text-base font-medium">
+                  <Users className="h-5 w-5" />
+                  <span className="hidden lg:inline ml-1">Resident Directory</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-5xl w-[90vw] h-[90vh] flex flex-col p-0">
+              <DialogContent className="max-w-5xl w-[90vw] h-[90vh] flex flex-col p-0 rounded-2xl shadow-xl">
                 <DialogHeader className="p-4 lg:p-6 border-b">
                   <DialogTitle className="text-xl">Resident Information</DialogTitle>
                 </DialogHeader>
@@ -259,13 +259,13 @@ export const DashboardHeader = () => {
 
             <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
-                  <Edit className="h-4 w-4" />
+                <Button variant="ghost" size="icon" className="h-10 w-10 shrink-0 rounded-lg hover:bg-purple-100/80 shadow transition-all">
+                  <Edit className="h-5 w-5" />
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="rounded-2xl shadow-2xl">
                 <DialogHeader>
-                  <DialogTitle>Society Settings</DialogTitle>
+                  <DialogTitle className="text-xl">Society Settings</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
@@ -286,26 +286,24 @@ export const DashboardHeader = () => {
                       onChange={handleLogoUpload}
                     />
                   </div>
-                  <Button onClick={handleSaveSettings} className="w-full">
+                  <Button onClick={handleSaveSettings} className="w-full rounded-lg">
                     Save Settings
                   </Button>
                 </div>
               </DialogContent>
             </Dialog>
 
-            <Button variant="ghost" size="sm" className="shrink-0">
-              <LogOut className="h-4 w-4" />
-              <span className="hidden lg:inline">Sign Out</span>
+            <Button variant="ghost" size="lg" className="shrink-0 hover:bg-purple-100/70 rounded-lg transition-all text-base font-medium">
+              <LogOut className="h-5 w-5" />
+              <span className="hidden lg:inline ml-1">Sign Out</span>
             </Button>
 
-            <div className="hidden md:block text-right shrink-0">
-              <div className="text-sm font-medium text-purple-600">
-                Jun 13, 2025
-              </div>
-            </div>
+            {/* Removed date from header for modern look and deduplication */}
           </div>
         </div>
       </div>
     </header>
   );
 };
+
+export default DashboardHeader;
