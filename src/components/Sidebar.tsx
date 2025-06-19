@@ -1,8 +1,8 @@
-
 import { X, User, Users, Archive, LogOut, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   onClose?: () => void;
@@ -10,42 +10,43 @@ interface SidebarProps {
 
 export const Sidebar = ({ onClose }: SidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const navigate = useNavigate();
 
   const navigationItems = [
     { 
       icon: Home, 
       label: "Dashboard", 
-      href: "#",
+      href: "/",
       onClick: () => {
+        navigate("/");
         console.log("Navigate to: Dashboard");
-        // Add navigation logic here
       }
     },
     { 
       icon: Users, 
       label: "Resident Directory", 
-      href: "#",
+      href: "/residents",
       onClick: () => {
+        navigate("/residents");
         console.log("Navigate to: Resident Directory");
-        // Add navigation logic here
       }
     },
     { 
       icon: Archive, 
       label: "Society Info", 
-      href: "#",
+      href: "/society",
       onClick: () => {
+        navigate("/society");
         console.log("Navigate to: Society Info");
-        // Add navigation logic here
       }
     },
     { 
       icon: LogOut, 
       label: "Sign Out", 
-      href: "#",
+      href: "/login",
       onClick: () => {
+        navigate("/login");
         console.log("Navigate to: Sign Out");
-        // Add sign out logic here
       }
     }
   ];
