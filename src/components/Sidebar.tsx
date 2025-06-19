@@ -1,5 +1,5 @@
 
-import { X, User, users, archive, call-outgoing } from "lucide-react";
+import { X, User, Users, Archive, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
@@ -12,9 +12,9 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const navigationItems = [
-    { icon: User, label: "Resident Directory", href: "#" },
-    { icon: archive, label: "Society Info", href: "#" },
-    { icon: call-outgoing, label: "Sign Out", href: "#" }
+    { icon: Users, label: "Resident Directory", href: "#" },
+    { icon: Archive, label: "Society Info", href: "#" },
+    { icon: LogOut, label: "Sign Out", href: "#" }
   ];
 
   return (

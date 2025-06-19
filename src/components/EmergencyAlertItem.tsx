@@ -9,10 +9,10 @@ import {
   Clock,
   User,
   Siren,
-  archive,
-  bell,
-  bell-off,
-  call-outgoing,
+  Archive,
+  Bell,
+  BellOff,
+  Users,
 } from "lucide-react";
 
 interface EmergencyAlertItemProps {
@@ -58,7 +58,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
       };
       case "fire_alarm": return { 
         label: "Fire Alarm", 
-        Icon: archive,
+        Icon: Archive,
         borderColor: "border-orange-200",
         iconColor: "text-orange-500",
         accent: alertTypeColors.fire_alarm,
@@ -66,7 +66,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
       };
       case "smoke_detector": return { 
         label: "Smoke Detected", 
-        Icon: bell,
+        Icon: Bell,
         borderColor: "border-orange-200",
         iconColor: "text-orange-400",
         accent: alertTypeColors.smoke_detector,
@@ -74,7 +74,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
       };
       case "gas_leak": return { 
         label: "Gas Leak", 
-        Icon: bell-off,
+        Icon: BellOff,
         borderColor: "border-yellow-200",
         iconColor: "text-yellow-500",
         accent: alertTypeColors.gas_leak,
@@ -82,7 +82,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
       };
       case "fall_detection": return { 
         label: "Fall Detected", 
-        Icon: users,
+        Icon: Users,
         borderColor: "border-purple-200",
         iconColor: "text-purple-600",
         accent: alertTypeColors.fall_detection,
@@ -90,7 +90,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
       };
       default: return { 
         label: "Unknown", 
-        Icon: user,
+        Icon: User,
         borderColor: "border-gray-200",
         iconColor: "text-gray-500",
         accent: "bg-gray-400",
@@ -149,14 +149,14 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
             
             {/* Badges Section */}
             <div className="flex flex-col lg:flex-row gap-2 lg:items-center">
-              {/* Alert Type Badge - Larger */}
-              <Badge className={`border font-bold text-xs lg:text-sm px-3 py-1.5 lg:px-4 lg:py-2 ${typeInfo.badgeColor} flex items-center gap-1.5 w-full lg:w-auto justify-center lg:justify-start`}>
-                <typeInfo.Icon className="h-3 w-3 lg:h-4 lg:w-4" />
+              {/* Alert Type Badge - Larger and more prominent */}
+              <Badge className={`border font-bold text-sm lg:text-base px-4 py-2 lg:px-5 lg:py-2.5 ${typeInfo.badgeColor} flex items-center gap-2 w-full lg:w-auto justify-center lg:justify-start`}>
+                <typeInfo.Icon className="h-4 w-4 lg:h-5 lg:w-5" />
                 <span className="truncate">{typeInfo.label}</span>
               </Badge>
               
-              {/* Status Badge */}
-              <Badge className={`border-none px-2 py-1 shadow-xs font-bold rounded-full text-xs lg:text-sm w-full lg:w-auto text-center ${statusColors[status]}`}>
+              {/* Status Badge - Smaller */}
+              <Badge className={`border-none px-2 py-1 shadow-xs font-medium rounded-full text-xs w-auto lg:w-auto text-center ${statusColors[status]}`}>
                 {getStatusLabel(status)}
               </Badge>
             </div>
@@ -167,13 +167,13 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 text-xs lg:text-sm">
               <div className="flex items-center space-x-2 min-w-0">
                 <User className="h-3 w-3 lg:h-4 lg:w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-gray-600 flex-shrink-0">Resident:</span>
+                <span className="text-gray-600 flex-shrink-0">Phone:</span>
                 <span className="font-medium text-gray-900 truncate">{incident.phoneNumber}</span>
               </div>
             </div>
           </div>
 
-          {/* Action Button - Single Call Resident Button */}
+          {/* Single Call Button */}
           <div className="mt-2">
             <Button
               size="sm"
