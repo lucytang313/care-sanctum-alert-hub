@@ -147,16 +147,16 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
               </div>
             </div>
             
-            {/* Badges Section - Fixed layout */}
-            <div className="flex flex-row gap-2 items-center justify-start lg:justify-end flex-wrap">
+            {/* Badges Section - Fixed layout to prevent expansion */}
+            <div className="flex flex-row gap-2 items-center justify-start lg:justify-end flex-shrink-0">
               {/* Alert Type Badge - Larger and more prominent */}
-              <Badge className={`border font-bold text-sm lg:text-base px-4 py-2 lg:px-5 lg:py-2.5 ${typeInfo.badgeColor} flex items-center gap-2 flex-shrink-0`}>
-                <typeInfo.Icon className="h-4 w-4 lg:h-5 lg:w-5" />
+              <Badge className={`border font-bold text-xs lg:text-sm px-3 py-1.5 lg:px-4 lg:py-2 ${typeInfo.badgeColor} flex items-center gap-1.5 whitespace-nowrap`}>
+                <typeInfo.Icon className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
                 <span className="truncate">{typeInfo.label}</span>
               </Badge>
               
               {/* Status Badge - Smaller */}
-              <Badge className={`border-none px-2 py-1 shadow-xs font-medium rounded-full text-xs flex-shrink-0 ${statusColors[status]}`}>
+              <Badge className={`border-none px-2 py-1 shadow-xs font-medium rounded-full text-xs whitespace-nowrap ${statusColors[status]}`}>
                 {getStatusLabel(status)}
               </Badge>
             </div>

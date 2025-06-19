@@ -1,5 +1,5 @@
 
-import { X, User, Users, Archive, LogOut } from "lucide-react";
+import { X, User, Users, Archive, LogOut, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
@@ -12,6 +12,15 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const navigationItems = [
+    { 
+      icon: Home, 
+      label: "Dashboard", 
+      href: "#",
+      onClick: () => {
+        console.log("Navigate to: Dashboard");
+        // Add navigation logic here
+      }
+    },
     { 
       icon: Users, 
       label: "Resident Directory", 
