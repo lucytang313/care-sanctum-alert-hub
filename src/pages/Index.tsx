@@ -2,6 +2,8 @@ import { useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Sidebar } from "@/components/Sidebar";
 import { EmergencyAlertItem } from "@/components/EmergencyAlertItem";
+import { StatsCards } from "@/components/StatsCards";
+import { FilterControls } from "@/components/FilterControls";
 import { EmergencyIncident, IncidentStatus, IncidentType } from "@/types/emergency";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
@@ -94,13 +96,16 @@ const Index = () => {
   const [typeFilter, setTypeFilter] = useState<IncidentType | "all">("all");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
   const filteredIncidents = incidents.filter(incident => {
     const matchesStatus = statusFilter === "all" || incident.status === statusFilter;
     const matchesType = typeFilter === "all" || incident.incidentType === typeFilter;
     const matchesDate = incident.timestamp.toDateString() === selectedDate.toDateString();
     return matchesStatus && matchesType && matchesDate;
   });
+  
   const todayIncidents = incidents.filter(incident => incident.timestamp.toDateString() === new Date().toDateString());
+  
   const getStatusCounts = () => {
     return {
       yetToAttend: todayIncidents.filter(i => i.status === "yet_to_attend").length,
@@ -109,12 +114,16 @@ const Index = () => {
       total: todayIncidents.length
     };
   };
-  return <div className="min-h-screen bg-gradient-to-br from-white via-[#fd6ed0]/5 to-[#ba48b3]/10">
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-white via-[#fd6ed0]/5 to-[#ba48b3]/10">
       <DashboardHeader />
       
       <div className="flex h-[calc(100vh-73px)] relative">
         {/* Mobile sidebar overlay */}
-        {isSidebarOpen && <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />}
+        {isSidebarOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
+        )}
         
         {/* Sidebar */}
         <div className={`
@@ -123,7 +132,7 @@ const Index = () => {
           transition-transform duration-300 ease-in-out
           h-full
         `}>
-          <Sidebar stats={getStatusCounts()} statusFilter={statusFilter} setStatusFilter={setStatusFilter} typeFilter={typeFilter} setTypeFilter={setTypeFilter} selectedDate={selectedDate} setSelectedDate={setSelectedDate} onClose={() => setIsSidebarOpen(false)} />
+          <Sidebar onClose={() => setIsSidebarOpen(false)} />
         </div>
         
         <main className="flex-1 flex flex-col min-w-0">
@@ -131,11 +140,30 @@ const Index = () => {
           <div className="lg:hidden bg-white border-b border-gray-200 p-4">
             <Button variant="ghost" size="sm" onClick={() => setIsSidebarOpen(true)} className="flex items-center space-x-2 hover:bg-gray-100">
               <Menu className="h-5 w-5" />
-              <span>Filters & Stats</span>
+              <span>Menu</span>
             </Button>
           </div>
 
           <div className="flex-1 p-4 lg:p-8 overflow-auto bg-slate-100">
+            {/* Today's Overview Section */}
+            <div className="mb-6">
+              <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">Today's Overview</h2>
+              <StatsCards stats={getStatusCounts()} />
+            </div>
+
+            {/* Filters Section */}
+            <div className="mb-6">
+              <FilterControls
+                statusFilter={statusFilter}
+                setStatusFilter={setStatusFilter}
+                typeFilter={typeFilter}
+                setTypeFilter={setTypeFilter}
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
+            </div>
+
+            {/* Emergency Alerts Section */}
             <div className="mb-6 lg:mb-8">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
                 <div>
@@ -152,20 +180,30 @@ const Index = () => {
               </div>
             </div>
             
-            {filteredIncidents.length === 0 ? <div className="text-center py-12 lg:py-16">
+            {filteredIncidents.length === 0 ? (
+              <div className="text-center py-12 lg:py-16">
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl text-gray-500">📋</span>
                 </div>
                 <div className="text-xl font-medium text-gray-700 mb-2">No incidents found</div>
                 <p className="text-gray-500 max-w-md mx-auto px-4">
-                  {selectedDate.toDateString() === new Date().toDateString() ? "All clear for today! No emergency incidents to report." : "No incidents recorded for the selected date."}
+                  {selectedDate.toDateString() === new Date().toDateString() 
+                    ? "All clear for today! No emergency incidents to report." 
+                    : "No incidents recorded for the selected date."}
                 </p>
-              </div> : <div className="space-y-4 lg:space-y-6">
-                {filteredIncidents.map(incident => <EmergencyAlertItem key={incident.id} incident={incident} />)}
-              </div>}
+              </div>
+            ) : (
+              <div className="space-y-3 lg:space-y-4">
+                {filteredIncidents.map(incident => (
+                  <EmergencyAlertItem key={incident.id} incident={incident} />
+                ))}
+              </div>
+            )}
           </div>
         </main>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Index;

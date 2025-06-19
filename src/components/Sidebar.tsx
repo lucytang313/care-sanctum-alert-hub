@@ -1,161 +1,66 @@
 
-import { Calendar, X, AlertCircle, Loader2, CheckCircle2, List } from "lucide-react";
+import { X, User, users, archive, call-outgoing } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { IncidentStatus, IncidentType, DashboardStats } from "@/types/emergency";
-import { format } from "date-fns";
+import { useState } from "react";
 
 interface SidebarProps {
-  stats: DashboardStats;
-  statusFilter: IncidentStatus | "all";
-  setStatusFilter: (status: IncidentStatus | "all") => void;
-  typeFilter: IncidentType | "all";
-  setTypeFilter: (type: IncidentType | "all") => void;
-  selectedDate: Date;
-  setSelectedDate: (date: Date) => void;
   onClose?: () => void;
 }
 
-export const Sidebar = ({
-  stats,
-  statusFilter,
-  setStatusFilter,
-  typeFilter,
-  setTypeFilter,
-  selectedDate,
-  setSelectedDate,
-  onClose,
-}: SidebarProps) => {
-  return (
-    <div className="w-80 lg:w-80 bg-white border-r border-gray-200 h-full flex flex-col shadow-lg lg:shadow-none">
-      {/* Mobile close button */}
-      {onClose && (
-        <div className="lg:hidden p-4 border-b border-gray-200 flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-gray-900">Dashboard Controls</h2>
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            <X className="h-5 w-5" />
-          </Button>
-        </div>
-      )}
+export const Sidebar = ({ onClose }: SidebarProps) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
-      {/* Today's Overview as separated cards */}
-      <div className="p-4 lg:p-6 border-b-0 border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Today's Overview</h2>
-        <div className="space-y-3">
-          <Card className="bg-red-50 rounded-xl shadow-sm border border-red-100">
-            <CardContent className="flex items-center justify-between p-4">
-              <div>
-                <p className="text-sm font-semibold text-red-700">Yet to be Attended</p>
-                <p className="text-2xl font-bold text-red-600">{stats.yetToAttend}</p>
-              </div>
-              <AlertCircle className="h-7 w-7 text-red-400" />
-            </CardContent>
-          </Card>
-          <Card className="bg-yellow-50 rounded-xl shadow-sm border border-yellow-100">
-            <CardContent className="flex items-center justify-between p-4">
-              <div>
-                <p className="text-sm font-semibold text-yellow-800">Attending</p>
-                <p className="text-2xl font-bold text-yellow-600">{stats.attending}</p>
-              </div>
-              <Loader2 className="h-7 w-7 text-yellow-500" />
-            </CardContent>
-          </Card>
-          <Card className="bg-green-50 rounded-xl shadow-sm border border-green-100">
-            <CardContent className="flex items-center justify-between p-4">
-              <div>
-                <p className="text-sm font-semibold text-green-700">Attended</p>
-                <p className="text-2xl font-bold text-green-600">{stats.attended}</p>
-              </div>
-              <CheckCircle2 className="h-7 w-7 text-green-500" />
-            </CardContent>
-          </Card>
-          <Card className="bg-blue-50 rounded-xl shadow-sm border border-blue-100">
-            <CardContent className="flex items-center justify-between p-4">
-              <div>
-                <p className="text-sm font-semibold text-blue-700">Total Today</p>
-                <p className="text-2xl font-bold text-blue-700">{stats.total}</p>
-              </div>
-              <List className="h-7 w-7 text-blue-500" />
-            </CardContent>
-          </Card>
+  const navigationItems = [
+    { icon: User, label: "Resident Directory", href: "#" },
+    { icon: archive, label: "Society Info", href: "#" },
+    { icon: call-outgoing, label: "Sign Out", href: "#" }
+  ];
+
+  return (
+    <div className={`${isCollapsed ? 'w-16' : 'w-80'} lg:w-80 bg-white border-r border-gray-200 h-full flex flex-col shadow-lg lg:shadow-none transition-all duration-300`}>
+      {/* Mobile close button and collapse toggle */}
+      <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+        {!isCollapsed && (
+          <h2 className="text-lg font-semibold text-gray-900 lg:block hidden">Navigation</h2>
+        )}
+        <div className="flex items-center gap-2">
+          {/* Collapse toggle for desktop */}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="hidden lg:flex"
+          >
+            {isCollapsed ? "→" : "←"}
+          </Button>
+          {/* Mobile close button */}
+          {onClose && (
+            <Button variant="ghost" size="sm" onClick={onClose} className="lg:hidden">
+              <X className="h-5 w-5" />
+            </Button>
+          )}
         </div>
       </div>
 
-      {/* Filters in a separate card */}
-      <div className="p-4 lg:p-6 flex-1 overflow-auto">
-        <Card className="rounded-xl shadow-sm border border-gray-100">
-          <CardContent className="p-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <span className="inline-block">
-                {/* filter icon is NOT part of lucide-react icons provided, so omitting */}
-                {/* <Filter className="h-5 w-5" /> */}
-                🔍
-              </span>
-              Filters
-            </h3>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn("w-full justify-start text-left font-normal text-sm")}
-                    >
-                      <Calendar className="mr-2 h-4 w-4" />
-                      {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <CalendarComponent
-                      mode="single"
-                      selected={selectedDate}
-                      onSelect={(date) => date && setSelectedDate(date)}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="All" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All</SelectItem>
-                    <SelectItem value="yet_to_attend">Yet to be Attended</SelectItem>
-                    <SelectItem value="attending">Attending</SelectItem>
-                    <SelectItem value="attended">Attended</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
-                <Select value={typeFilter} onValueChange={setTypeFilter}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="All Issues" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Issues</SelectItem>
-                    <SelectItem value="sos">SOS Emergency</SelectItem>
-                    <SelectItem value="fire_alarm">Fire Alarm</SelectItem>
-                    <SelectItem value="smoke_detector">Smoke Detector</SelectItem>
-                    <SelectItem value="gas_leak">Gas Leak</SelectItem>
-                    <SelectItem value="fall_detection">Fall Detection</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Navigation Items */}
+      <div className="flex-1 p-4">
+        <div className="space-y-2">
+          {navigationItems.map((item, index) => (
+            <Button
+              key={index}
+              variant="ghost"
+              className={`w-full ${isCollapsed ? 'px-2' : 'justify-start'} hover:bg-gray-100 transition-colors`}
+              onClick={() => {
+                // Handle navigation here
+                console.log(`Navigate to: ${item.label}`);
+              }}
+            >
+              <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
+              {!isCollapsed && <span className="truncate">{item.label}</span>}
+            </Button>
+          ))}
+        </div>
       </div>
     </div>
   );

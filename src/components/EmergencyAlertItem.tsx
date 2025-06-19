@@ -9,11 +9,10 @@ import {
   Clock,
   User,
   Siren,
-  FireExtinguisher,
-  AlarmSmoke,
-  ShieldAlert,
-  Accessibility,
-  HelpCircle,
+  archive,
+  bell,
+  bell-off,
+  call-outgoing,
 } from "lucide-react";
 
 interface EmergencyAlertItemProps {
@@ -55,41 +54,47 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
         borderColor: "border-red-200",
         iconColor: "text-red-500",
         accent: alertTypeColors.sos,
+        badgeColor: "bg-red-100 text-red-800 border-red-300",
       };
       case "fire_alarm": return { 
         label: "Fire Alarm", 
-        Icon: FireExtinguisher,
+        Icon: archive,
         borderColor: "border-orange-200",
         iconColor: "text-orange-500",
         accent: alertTypeColors.fire_alarm,
+        badgeColor: "bg-orange-100 text-orange-800 border-orange-300",
       };
       case "smoke_detector": return { 
         label: "Smoke Detected", 
-        Icon: AlarmSmoke,
+        Icon: bell,
         borderColor: "border-orange-200",
         iconColor: "text-orange-400",
         accent: alertTypeColors.smoke_detector,
+        badgeColor: "bg-orange-100 text-orange-700 border-orange-300",
       };
       case "gas_leak": return { 
         label: "Gas Leak", 
-        Icon: ShieldAlert,
+        Icon: bell-off,
         borderColor: "border-yellow-200",
         iconColor: "text-yellow-500",
         accent: alertTypeColors.gas_leak,
+        badgeColor: "bg-yellow-100 text-yellow-800 border-yellow-300",
       };
       case "fall_detection": return { 
         label: "Fall Detected", 
-        Icon: Accessibility,
+        Icon: users,
         borderColor: "border-purple-200",
         iconColor: "text-purple-600",
         accent: alertTypeColors.fall_detection,
+        badgeColor: "bg-purple-100 text-purple-800 border-purple-300",
       };
       default: return { 
         label: "Unknown", 
-        Icon: HelpCircle,
+        Icon: user,
         borderColor: "border-gray-200",
         iconColor: "text-gray-500",
         accent: "bg-gray-400",
+        badgeColor: "bg-gray-100 text-gray-800 border-gray-300",
       };
     }
   };
@@ -102,7 +107,7 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
 
   return (
     <div className="relative group">
-      {/* Vertical accent stripe for incident type (using absolute for stripe) */}
+      {/* Vertical accent stripe for incident type */}
       <div 
         className={`absolute top-0 left-0 h-full w-1.5 rounded-bl-xl rounded-tl-xl ${typeInfo.accent} group-hover:w-2 transition-all duration-300`}
         aria-hidden="true"
@@ -116,15 +121,15 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
         `}
         style={{ marginLeft: '0.5rem' }}
       >
-        <div className="p-4 lg:p-6">
+        <div className="p-3 lg:p-4">
           {/* Header Section */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-3 lg:space-y-0 mb-4">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-3 lg:space-y-0 mb-3">
             <div className="flex items-center space-x-3 lg:space-x-4">
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold shadow-sm flex-shrink-0">
+              <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold shadow-sm flex-shrink-0 text-xs lg:text-sm">
                 {getInitials(incident.residentName)}
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="font-semibold text-gray-900 text-base lg:text-lg truncate">{incident.residentName}</h3>
+                <h3 className="font-semibold text-gray-900 text-sm lg:text-base truncate">{incident.residentName}</h3>
                 <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-4 space-y-1 lg:space-y-0 text-xs lg:text-sm text-gray-600 mt-1">
                   <div className="flex items-center space-x-1">
                     <MapPin className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
@@ -141,82 +146,43 @@ export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
                 </div>
               </div>
             </div>
-            {/* Status Badge – makes status more visually prominent */}
-            <Badge className={`border-none px-2.5 py-1 shadow-xs font-bold rounded-full text-xs lg:text-sm ${statusColors[status]}`}>
-              {getStatusLabel(status)}
-            </Badge>
-          </div>
-
-          {/* Incident Type Section – bigger, colored icon */}
-          <div className="mb-4 p-3 lg:p-4 bg-gray-50 rounded-lg flex items-center gap-3">
-            <div className={`w-9 h-9 lg:w-11 lg:h-11 rounded-lg flex items-center justify-center shadow-sm flex-shrink-0 ${typeInfo.accent}`}>
-              <typeInfo.Icon className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <span className="font-semibold text-gray-900 text-sm lg:text-base">{typeInfo.label}</span>
-              {incident.description && (
-                <p className="text-xs lg:text-sm text-gray-600 mt-1 break-words">{incident.description}</p>
-              )}
+            
+            {/* Badges Section */}
+            <div className="flex flex-col lg:flex-row gap-2 lg:items-center">
+              {/* Alert Type Badge - Larger */}
+              <Badge className={`border font-bold text-xs lg:text-sm px-3 py-1.5 lg:px-4 lg:py-2 ${typeInfo.badgeColor} flex items-center gap-1.5 w-full lg:w-auto justify-center lg:justify-start`}>
+                <typeInfo.Icon className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="truncate">{typeInfo.label}</span>
+              </Badge>
+              
+              {/* Status Badge */}
+              <Badge className={`border-none px-2 py-1 shadow-xs font-bold rounded-full text-xs lg:text-sm w-full lg:w-auto text-center ${statusColors[status]}`}>
+                {getStatusLabel(status)}
+              </Badge>
             </div>
           </div>
 
           {/* Contact Information */}
-          <div className="mb-4 lg:mb-6 p-3 lg:p-4 bg-blue-50 rounded-lg">
-            <div className="space-y-2 lg:space-y-0 lg:grid lg:grid-cols-1 xl:grid-cols-2 lg:gap-3 text-xs lg:text-sm">
+          <div className="mb-3 p-2 lg:p-3 bg-blue-50 rounded-lg">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 text-xs lg:text-sm">
               <div className="flex items-center space-x-2 min-w-0">
                 <User className="h-3 w-3 lg:h-4 lg:w-4 text-blue-600 flex-shrink-0" />
                 <span className="text-gray-600 flex-shrink-0">Resident:</span>
                 <span className="font-medium text-gray-900 truncate">{incident.phoneNumber}</span>
               </div>
-              <div className="flex items-center space-x-2 min-w-0">
-                <User className="h-3 w-3 lg:h-4 lg:w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-gray-600 flex-shrink-0">Emergency:</span>
-                <span className="font-medium text-gray-900 truncate">{incident.nokPhone}</span>
-              </div>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col lg:flex-row gap-2 lg:gap-3 mt-3">
+          {/* Action Button - Single Call Resident Button */}
+          <div className="mt-2">
             <Button
               size="sm"
               variant="outline"
-              className="flex-1 min-w-0 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors text-xs lg:text-sm h-8 lg:h-9"
+              className="w-full hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors text-xs lg:text-sm h-8 lg:h-9"
               onClick={() => window.open(`tel:${incident.phoneNumber}`, '_self')}
             >
               <Phone className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
               Call Resident
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              className="flex-1 min-w-0 hover:bg-green-50 hover:border-green-300 hover:text-green-700 transition-colors text-xs lg:text-sm h-8 lg:h-9"
-              onClick={() => window.open(`tel:${incident.nokPhone}`, '_self')}
-            >
-              <Phone className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
-              Call Emergency
-            </Button>
-            <Button
-              size="sm"
-              variant={status === "yet_to_attend" ? "default" : "outline"}
-              className={`min-w-0 transition-all text-xs lg:text-sm h-8 lg:h-9 ${
-                status === "yet_to_attend" 
-                  ? "bg-purple-600 hover:bg-purple-700 text-white shadow-sm" 
-                  : status === "attending"
-                  ? "hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-700"
-                  : "opacity-75 cursor-not-allowed"
-              }`}
-              onClick={() => {
-                if (status === "yet_to_attend") setStatus("attending");
-                else if (status === "attending") setStatus("attended");
-              }}
-              disabled={status === "attended"}
-            >
-              {status === "yet_to_attend" 
-                ? "Start Response" 
-                : status === "attending" 
-                ? "Mark Resolved" 
-                : "Resolved ✓"}
             </Button>
           </div>
         </div>
