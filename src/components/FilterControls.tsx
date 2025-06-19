@@ -26,14 +26,14 @@ export const FilterControls = ({
   setSelectedDate,
 }: FilterControlsProps) => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-2 lg:space-y-4">
       <div className="flex items-center space-x-2">
-        <span className="text-sm font-medium text-gray-700">Filters:</span>
+        <span className="text-xs md:text-sm font-medium text-gray-700">Filters:</span>
       </div>
 
-      <div className="flex flex-col space-y-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="h-8 md:h-10 text-xs md:text-sm">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent>
@@ -45,7 +45,7 @@ export const FilterControls = ({
         </Select>
 
         <Select value={typeFilter} onValueChange={setTypeFilter}>
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="h-8 md:h-10 text-xs md:text-sm">
             <SelectValue placeholder="All Types" />
           </SelectTrigger>
           <SelectContent>
@@ -62,10 +62,10 @@ export const FilterControls = ({
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className={cn("w-full justify-start text-left font-normal")}
+              className={cn("h-8 md:h-10 justify-start text-left font-normal text-xs md:text-sm")}
             >
-              <Calendar className="mr-2 h-4 w-4" />
-              {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
+              <Calendar className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
+              {selectedDate ? format(selectedDate, "MMM dd") : <span>Pick date</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -78,23 +78,23 @@ export const FilterControls = ({
             />
           </PopoverContent>
         </Popover>
-
-        {(statusFilter !== "all" || typeFilter !== "all" || 
-          selectedDate.toDateString() !== new Date().toDateString()) && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              setStatusFilter("all");
-              setTypeFilter("all");
-              setSelectedDate(new Date());
-            }}
-            className="text-gray-500 hover:text-gray-700 w-full"
-          >
-            Clear Filters
-          </Button>
-        )}
       </div>
+
+      {(statusFilter !== "all" || typeFilter !== "all" || 
+        selectedDate.toDateString() !== new Date().toDateString()) && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            setStatusFilter("all");
+            setTypeFilter("all");
+            setSelectedDate(new Date());
+          }}
+          className="text-gray-500 hover:text-gray-700 h-6 text-xs md:text-sm md:h-8"
+        >
+          Clear Filters
+        </Button>
+      )}
     </div>
   );
 };

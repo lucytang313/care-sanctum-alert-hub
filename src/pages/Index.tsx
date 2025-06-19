@@ -144,15 +144,15 @@ const Index = () => {
             </Button>
           </div>
 
-          <div className="flex-1 p-4 lg:p-8 overflow-auto bg-slate-100">
+          <div className="flex-1 p-2 md:p-4 lg:p-8 overflow-auto bg-slate-100">
             {/* Today's Overview Section */}
-            <div className="mb-6">
-              <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">Today's Overview</h2>
+            <div className="mb-3 lg:mb-6">
+              <h2 className="text-base md:text-xl lg:text-2xl font-bold text-gray-900 mb-2 lg:mb-4">Today's Overview</h2>
               <StatsCards stats={getStatusCounts()} />
             </div>
 
             {/* Filters Section */}
-            <div className="mb-6">
+            <div className="mb-3 lg:mb-6">
               <FilterControls
                 statusFilter={statusFilter}
                 setStatusFilter={setStatusFilter}
@@ -167,14 +167,14 @@ const Index = () => {
             <div className="mb-6 lg:mb-8">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
                 <div>
-                  <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
                     Emergency Alerts
                   </h1>
-                  <p className="text-gray-600">
+                  <p className="text-sm md:text-base text-gray-600">
                     {filteredIncidents.length} incident{filteredIncidents.length !== 1 ? 's' : ''} found
                   </p>
                 </div>
-                <div className="bg-gradient-to-r from-[#3d007d] to-[#ba48b3] text-white px-4 py-2 rounded-lg shadow-sm font-medium text-center lg:text-left">
+                <div className="bg-gradient-to-r from-[#3d007d] to-[#ba48b3] text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg shadow-sm font-medium text-center lg:text-left text-sm md:text-base">
                   Jun 14, 2025
                 </div>
               </div>
