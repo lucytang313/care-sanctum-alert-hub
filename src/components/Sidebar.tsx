@@ -12,9 +12,33 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const navigationItems = [
-    { icon: Users, label: "Resident Directory", href: "#" },
-    { icon: Archive, label: "Society Info", href: "#" },
-    { icon: LogOut, label: "Sign Out", href: "#" }
+    { 
+      icon: Users, 
+      label: "Resident Directory", 
+      href: "#",
+      onClick: () => {
+        console.log("Navigate to: Resident Directory");
+        // Add navigation logic here
+      }
+    },
+    { 
+      icon: Archive, 
+      label: "Society Info", 
+      href: "#",
+      onClick: () => {
+        console.log("Navigate to: Society Info");
+        // Add navigation logic here
+      }
+    },
+    { 
+      icon: LogOut, 
+      label: "Sign Out", 
+      href: "#",
+      onClick: () => {
+        console.log("Navigate to: Sign Out");
+        // Add sign out logic here
+      }
+    }
   ];
 
   return (
@@ -51,10 +75,7 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
               key={index}
               variant="ghost"
               className={`w-full ${isCollapsed ? 'px-2' : 'justify-start'} hover:bg-gray-100 transition-colors`}
-              onClick={() => {
-                // Handle navigation here
-                console.log(`Navigate to: ${item.label}`);
-              }}
+              onClick={item.onClick}
             >
               <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
               {!isCollapsed && <span className="truncate">{item.label}</span>}
