@@ -1,8 +1,9 @@
+
 import { X, User, Users, Archive, LogOut, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface SidebarProps {
   onClose?: () => void;
@@ -10,44 +11,28 @@ interface SidebarProps {
 
 export const Sidebar = ({ onClose }: SidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const navigate = useNavigate();
+  const location = useLocation();
 
   const navigationItems = [
     { 
       icon: Home, 
       label: "Dashboard", 
       href: "/",
-      onClick: () => {
-        navigate("/");
-        console.log("Navigate to: Dashboard");
-      }
     },
     { 
       icon: Users, 
       label: "Resident Directory", 
       href: "/residents",
-      onClick: () => {
-        navigate("/residents");
-        console.log("Navigate to: Resident Directory");
-      }
     },
     { 
       icon: Archive, 
       label: "Society Info", 
       href: "/society",
-      onClick: () => {
-        navigate("/society");
-        console.log("Navigate to: Society Info");
-      }
     },
     { 
       icon: LogOut, 
       label: "Sign Out", 
       href: "/login",
-      onClick: () => {
-        navigate("/login");
-        console.log("Navigate to: Sign Out");
-      }
     }
   ];
 
@@ -80,17 +65,24 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
       {/* Navigation Items */}
       <div className="flex-1 p-4">
         <div className="space-y-2">
-          {navigationItems.map((item, index) => (
-            <Button
-              key={index}
-              variant="ghost"
-              className={`w-full ${isCollapsed ? 'px-2' : 'justify-start'} hover:bg-gray-100 transition-colors`}
-              onClick={item.onClick}
-            >
-              <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
-              {!isCollapsed && <span className="truncate">{item.label}</span>}
-            </Button>
-          ))}
+          {navigationItems.map((item, index) => {
+            const isActive = location.pathname === item.href;
+            return (
+              <Button
+                key={index}
+                variant="ghost"
+                className={`w-full ${isCollapsed ? 'px-2' : 'justify-start'} hover:bg-gray-100 transition-colors ${
+                  isActive ? 'bg-blue-100 text-blue-700 border-blue-200' : ''
+                }`}
+                asChild
+              >
+                <Link to={item.href}>
+                  <item.icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
+                  {!isCollapsed && <span className="truncate">{item.label}</span>}
+                </Link>
+              </Button>
+            )
+          })}
         </div>
       </div>
     </div>
