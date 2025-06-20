@@ -117,7 +117,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-[#fd6ed0]/5 to-[#ba48b3]/10">
-      <DashboardHeader />
+      <DashboardHeader onMobileMenuToggle={() => setIsSidebarOpen(true)} />
       
       <div className="flex h-[calc(100vh-73px)] relative">
         {/* Mobile sidebar overlay */}
@@ -125,7 +125,7 @@ const Index = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
         )}
         
-        {/* Sidebar */}
+        {/* Sidebar - hidden on mobile unless opened */}
         <div className={`
           fixed lg:relative z-50 lg:z-auto
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}

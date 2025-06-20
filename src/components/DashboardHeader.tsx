@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +27,7 @@ import {
   Building2,
   UserCog2,
   MapPin,
+  Menu,
 } from "lucide-react";
 
 // --- DATA MOCKS ---
@@ -188,7 +188,11 @@ const StaffDeptBadge = ({ department }: { department: string }) => (
   </span>
 );
 
-export const DashboardHeader = () => {
+interface DashboardHeaderProps {
+  onMobileMenuToggle?: () => void;
+}
+
+export const DashboardHeader = ({ onMobileMenuToggle }: DashboardHeaderProps) => {
   const [society, setSociety] = useState<Society>({
     id: "1",
     name: "Golden Heights Residency",
@@ -249,7 +253,19 @@ export const DashboardHeader = () => {
               </div>
             </div>
           </div>
-          {/* RIGHT SIDE HEADER BUTTONS */}
+          
+          {/* MOBILE MENU BUTTON */}
+          <div className="lg:hidden">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={onMobileMenuToggle}
+              className="flex items-center space-x-2 hover:bg-gray-100"
+            >
+              <Menu className="h-5 w-5" />
+              <span className="hidden sm:inline">Menu</span>
+            </Button>
+          </div>
         </div>
       </div>
     </header>
