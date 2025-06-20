@@ -125,12 +125,14 @@ const Index = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
         )}
         
-        {/* Sidebar - hidden on mobile unless opened */}
+        {/* Sidebar - slides in from right on mobile, normal position on desktop */}
         <div className={`
           fixed lg:relative z-50 lg:z-auto
-          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
+          lg:translate-x-0
           transition-transform duration-300 ease-in-out
           h-full
+          right-0 lg:right-auto lg:left-0
         `}>
           <Sidebar onClose={() => setIsSidebarOpen(false)} />
         </div>
