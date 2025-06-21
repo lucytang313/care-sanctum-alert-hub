@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import VerifyEmail from "./pages/VerifyEmail";
 import Residents from "./pages/Residents";
 import Society from "./pages/Society";
+import EmergencyDetail from "./pages/EmergencyDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/emergency/:id" element={<EmergencyDetail />} />
           <Route path="/residents" element={<Residents />} />
           <Route path="/society" element={<Society />} />
           <Route path="/login" element={<Login />} />

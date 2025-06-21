@@ -114,3 +114,13 @@
 .urgent-pulse {
   animation: urgent-pulse 1.5s ease-in-out infinite;
 }
+
+/* Text utilities */
+@layer utilities {
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+}

@@ -1,192 +1,114 @@
 
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { EmergencyIncident, IncidentStatus, IncidentType } from "@/types/emergency";
-import {
-  Phone,
-  MapPin,
-  Clock,
-  User,
-  Siren,
-  Archive,
-  Bell,
-  BellOff,
-  Users,
-} from "lucide-react";
+import { EmergencyIncident } from "@/types/emergency";
+import { AlertTriangle, Clock, MapPin, User, ChevronRight } from "lucide-react";
 
 interface EmergencyAlertItemProps {
   incident: EmergencyIncident;
 }
 
 export const EmergencyAlertItem = ({ incident }: EmergencyAlertItemProps) => {
-  const [status, setStatus] = useState<IncidentStatus>(incident.status);
-
-  // Add background color classes for status
-  const statusColors = {
-    yet_to_attend: "bg-red-600 text-white border-red-500",
-    attending: "bg-amber-500 text-white border-amber-400",
-    attended: "bg-emerald-500 text-white border-emerald-500",
-  };
-
-  const getStatusLabel = (status: IncidentStatus) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
-      case "yet_to_attend": return "Pending";
-      case "attending": return "In Progress";
-      case "attended": return "Resolved";
+      case "yet_to_attend":
+        return "bg-red-100 text-red-700 border-red-200";
+      case "attending":
+        return "bg-yellow-100 text-yellow-700 border-yellow-200";
+      case "attended":
+        return "bg-green-100 text-green-700 border-green-200";
+      default:
+        return "bg-gray-100 text-gray-600 border-gray-200";
     }
   };
 
-  // Define alert-type colored stripes & icon coloring
-  const alertTypeColors: Record<IncidentType, string> = {
-    sos: "bg-red-600",
-    fire_alarm: "bg-orange-500",
-    smoke_detector: "bg-orange-400",
-    gas_leak: "bg-yellow-500",
-    fall_detection: "bg-purple-600",
-  };
-
-  const getIncidentTypeInfo = (type: IncidentType) => {
+  const getIncidentIcon = (type: string) => {
     switch (type) {
-      case "sos": return { 
-        label: "SOS Emergency", 
-        Icon: Siren,
-        borderColor: "border-red-200",
-        iconColor: "text-red-500",
-        accent: alertTypeColors.sos,
-        badgeColor: "bg-red-100 text-red-800 border-red-300",
-      };
-      case "fire_alarm": return { 
-        label: "Fire Alarm", 
-        Icon: Archive,
-        borderColor: "border-orange-200",
-        iconColor: "text-orange-500",
-        accent: alertTypeColors.fire_alarm,
-        badgeColor: "bg-orange-100 text-orange-800 border-orange-300",
-      };
-      case "smoke_detector": return { 
-        label: "Smoke Detected", 
-        Icon: Bell,
-        borderColor: "border-orange-200",
-        iconColor: "text-orange-400",
-        accent: alertTypeColors.smoke_detector,
-        badgeColor: "bg-orange-100 text-orange-700 border-orange-300",
-      };
-      case "gas_leak": return { 
-        label: "Gas Leak", 
-        Icon: BellOff,
-        borderColor: "border-yellow-200",
-        iconColor: "text-yellow-500",
-        accent: alertTypeColors.gas_leak,
-        badgeColor: "bg-yellow-100 text-yellow-800 border-yellow-300",
-      };
-      case "fall_detection": return { 
-        label: "Fall Detected", 
-        Icon: Users,
-        borderColor: "border-purple-200",
-        iconColor: "text-purple-600",
-        accent: alertTypeColors.fall_detection,
-        badgeColor: "bg-purple-100 text-purple-800 border-purple-300",
-      };
-      default: return { 
-        label: "Unknown", 
-        Icon: User,
-        borderColor: "border-gray-200",
-        iconColor: "text-gray-500",
-        accent: "bg-gray-400",
-        badgeColor: "bg-gray-100 text-gray-800 border-gray-300",
-      };
+      case "sos":
+        return <AlertTriangle className="h-5 w-5 text-red-500" />;
+      case "fire_alarm":
+        return <AlertTriangle className="h-5 w-5 text-orange-500" />;
+      case "smoke_detector":
+        return <AlertTriangle className="h-5 w-5 text-gray-500" />;
+      case "gas_leak":
+        return <AlertTriangle className="h-5 w-5 text-yellow-500" />;
+      case "fall_detection":
+        return <AlertTriangle className="h-5 w-5 text-blue-500" />;
+      default:
+        return <AlertTriangle className="h-5 w-5 text-gray-500" />;
     }
   };
 
-  const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+  const getIncidentTypeLabel = (type: string) => {
+    switch (type) {
+      case "sos":
+        return "SOS Emergency";
+      case "fire_alarm":
+        return "Fire Alarm";
+      case "smoke_detector":
+        return "Smoke Detected";
+      case "gas_leak":
+        return "Gas Leak";
+      case "fall_detection":
+        return "Fall Detected";
+      default:
+        return type;
+    }
   };
 
-  const typeInfo = getIncidentTypeInfo(incident.incidentType);
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
 
   return (
-    <div className="relative group">
-      {/* Vertical accent stripe for incident type */}
-      <div 
-        className={`absolute top-0 left-0 h-full w-1.5 rounded-bl-xl rounded-tl-xl ${typeInfo.accent} group-hover:w-2 transition-all duration-300`}
-        aria-hidden="true"
-      ></div>
-      <div
-        className={`
-          bg-white rounded-xl shadow-sm border border-gray-100 pl-4
-          hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden
-          relative
-          lg:pl-6
-        `}
-        style={{ marginLeft: '0.5rem' }}
-      >
-        <div className="p-3 lg:p-4">
-          {/* Header Section */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between space-y-3 lg:space-y-0 mb-3">
-            <div className="flex items-center space-x-3 lg:space-x-4">
-              <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold shadow-sm flex-shrink-0 text-xs lg:text-sm">
-                {getInitials(incident.residentName)}
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="font-semibold text-gray-900 text-sm lg:text-base truncate">{incident.residentName}</h3>
-                <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-4 space-y-1 lg:space-y-0 text-xs lg:text-sm text-gray-600 mt-1">
-                  <div className="flex items-center space-x-1">
-                    <MapPin className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
-                    <span className="font-medium">{incident.flatNumber}</span>
+    <Link to={`/emergency/${incident.id}`} className="block">
+      <Card className="border-0 shadow-sm bg-white/70 backdrop-blur-sm hover:shadow-md hover:bg-white/90 transition-all duration-200 cursor-pointer">
+        <CardContent className="p-4">
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-start gap-3 flex-1 min-w-0">
+              {getIncidentIcon(incident.incidentType)}
+              
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h3 className="font-semibold text-slate-800 truncate">{getIncidentTypeLabel(incident.incidentType)}</h3>
+                  <Badge className={`px-2 py-1 text-xs font-medium border ${getStatusColor(incident.status)} flex-shrink-0`}>
+                    {incident.status === "yet_to_attend" ? "Urgent" : 
+                     incident.status === "attending" ? "In Progress" : "Resolved"}
+                  </Badge>
+                </div>
+                
+                <div className="space-y-1 text-sm text-slate-600">
+                  <div className="flex items-center gap-2">
+                    <User className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">{incident.residentName}</span>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <Clock className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
-                    <span>{incident.timestamp.toLocaleTimeString('en-US', { 
-                      hour: '2-digit', 
-                      minute: '2-digit',
-                      hour12: true 
-                    })}</span>
+                  
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 flex-shrink-0" />
+                    <span>{incident.flatNumber}</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 flex-shrink-0" />
+                    <span>{formatTime(incident.timestamp)}</span>
                   </div>
                 </div>
+                
+                {incident.description && (
+                  <p className="text-sm text-slate-500 mt-2 line-clamp-1">{incident.description}</p>
+                )}
               </div>
             </div>
             
-            {/* Badges Section - Fixed layout to prevent expansion */}
-            <div className="flex flex-row gap-2 items-center justify-start lg:justify-end flex-shrink-0">
-              {/* Alert Type Badge - Larger and more prominent */}
-              <Badge className={`border font-bold text-xs lg:text-sm px-3 py-1.5 lg:px-4 lg:py-2 ${typeInfo.badgeColor} flex items-center gap-1.5 whitespace-nowrap`}>
-                <typeInfo.Icon className="h-3 w-3 lg:h-4 lg:w-4 flex-shrink-0" />
-                <span className="truncate">{typeInfo.label}</span>
-              </Badge>
-              
-              {/* Status Badge - Smaller */}
-              <Badge className={`border-none px-2 py-1 shadow-xs font-medium rounded-full text-xs whitespace-nowrap ${statusColors[status]}`}>
-                {getStatusLabel(status)}
-              </Badge>
-            </div>
+            <ChevronRight className="h-5 w-5 text-slate-400 flex-shrink-0 mt-1" />
           </div>
-
-          {/* Contact Information */}
-          <div className="mb-3 p-2 lg:p-3 bg-blue-50 rounded-lg">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 text-xs lg:text-sm">
-              <div className="flex items-center space-x-2 min-w-0">
-                <User className="h-3 w-3 lg:h-4 lg:w-4 text-blue-600 flex-shrink-0" />
-                <span className="text-gray-600 flex-shrink-0">Phone:</span>
-                <span className="font-medium text-gray-900 truncate">{incident.phoneNumber}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Single Call Button */}
-          <div className="mt-2">
-            <Button
-              size="sm"
-              variant="outline"
-              className="w-full hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-colors text-xs lg:text-sm h-8 lg:h-9"
-              onClick={() => window.open(`tel:${incident.phoneNumber}`, '_self')}
-            >
-              <Phone className="h-3 w-3 lg:h-4 lg:w-4 mr-1 lg:mr-2" />
-              Call Resident
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
