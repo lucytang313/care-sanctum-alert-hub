@@ -48,16 +48,10 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
     }
   ];
 
-  // Design tokens from design.json
+  // CareSanctum Design tokens
   const sidebarBg = "#FFFFFF";
   const sidebarBorder = "#E0E0E0";
   const sidebarRadius = 16; // px
-  const headerFont = {
-    fontSize: 20,
-    fontWeight: 600,
-    lineHeight: '24px',
-    color: '#000000',
-  };
   const baseitemFont = {
     fontSize: 16,
     lineHeight: '20px',
@@ -106,7 +100,7 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
     >
       {/* Header with close button and collapse toggle */}
       <div
-        className="flex justify-between items-center border-b"
+        className="flex justify-end items-center border-b"
         style={{
           borderColor: dividerColor,
           padding: spacingMd,
@@ -114,14 +108,6 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
           paddingRight: isCollapsed && !isMobile ? spacingMd : spacingLg,
         }}
       >
-        {(!isCollapsed || isMobile) && (
-          <h2
-            className="truncate"
-            style={headerFont}
-          >
-            Navigation
-          </h2>
-        )}
         <div className="flex items-center gap-2">
           {/* Collapse toggle for desktop only */}
           {!isMobile && (
@@ -160,7 +146,7 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
                   paddingBottom: spacingMd,
                   paddingLeft: (isCollapsed && !isMobile) ? spacingMd : spacingLg,
                   paddingRight: (isCollapsed && !isMobile) ? spacingMd : spacingLg,
-                  background: isActive ? '#9332a2' : 'transparent',
+                  background: isActive ? 'hsl(var(--caresanctum-purple))' : 'transparent',
                 }}
                 asChild
               >

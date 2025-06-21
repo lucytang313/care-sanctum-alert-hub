@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Sidebar } from "@/components/Sidebar";
@@ -131,7 +132,7 @@ const Index = () => {
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
       setSelectedDate(date);
-      setIsDatePickerOpen(false); // Close the date picker
+      setIsDatePickerOpen(false);
     }
   };
 
@@ -285,7 +286,14 @@ const Index = () => {
 
                       <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
                         <PopoverTrigger asChild>
-                          <Button variant="outline" className="h-9 justify-start text-sm border-slate-300">
+                          <Button 
+                            variant="outline" 
+                            className="h-9 justify-start text-sm border-slate-300"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setIsDatePickerOpen(!isDatePickerOpen);
+                            }}
+                          >
                             <Calendar className="mr-2 h-4 w-4" />
                             {format(selectedDate, "MMM dd")}
                           </Button>
@@ -338,7 +346,14 @@ const Index = () => {
 
                       <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
                         <PopoverTrigger asChild>
-                          <Button variant="outline" className="w-full h-10 justify-start border-slate-300">
+                          <Button 
+                            variant="outline" 
+                            className="w-full h-10 justify-start border-slate-300"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setIsDatePickerOpen(!isDatePickerOpen);
+                            }}
+                          >
                             <Calendar className="mr-2 h-4 w-4" />
                             {format(selectedDate, "MMMM dd, yyyy")}
                           </Button>
