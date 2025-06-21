@@ -1,8 +1,8 @@
-
 import { X, Users, Archive, LogOut, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { isInputElement } from "react-router-dom/dist/dom";
 
 interface SidebarProps {
   onClose?: () => void;
@@ -11,19 +11,6 @@ interface SidebarProps {
 export const Sidebar = ({ onClose }: SidebarProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
-
-  // Reset collapsed state on mobile
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setIsCollapsed(false); // Always expand on mobile
-      }
-    };
-
-    handleResize(); // Check initial size
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const navigationItems = [
     {
@@ -91,50 +78,45 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
   const spacingMd = 16;
   const spacingLg = 24;
 
-  const isMobile = window.innerWidth < 1024;
-  const sidebarWidth = isMobile ? 280 : (isCollapsed ? 64 : 320);
-
   return (
     <div
-      className={`transition-all duration-300 h-full flex flex-col shadow-lg border-r`}
+      className={`transition-all duration-300 h-full flex flex-col shadow-lg lg:shadow-none border-r`}
       style={{
-        width: sidebarWidth,
+        width: isCollapsed ? 64 : 320, // 16px or 80px (collapsed/uncollapsed)
         background: sidebarBg,
         borderColor: sidebarBorder,
-        borderRadius: sidebarRadius,
+        borderRadius: isCollapsed ? sidebarRadius : sidebarRadius, // Only for demo, can be 0 if collapsed
       }}
     >
-      {/* Header with close button and collapse toggle */}
+      {/* Mobile close button and collapse toggle */}
       <div
         className="flex justify-between items-center border-b"
         style={{
           borderColor: dividerColor,
           padding: spacingMd,
-          paddingLeft: isCollapsed && !isMobile ? spacingMd : spacingLg,
-          paddingRight: isCollapsed && !isMobile ? spacingMd : spacingLg,
+          paddingLeft: isCollapsed ? spacingMd : spacingLg,
+          paddingRight: isCollapsed ? spacingMd : spacingLg,
         }}
       >
-        {(!isCollapsed || isMobile) && (
+        {!isCollapsed && (
           <h2
-            className="truncate"
+            className="lg:block hidden truncate"
             style={headerFont}
           >
             Navigation
           </h2>
         )}
         <div className="flex items-center gap-2">
-          {/* Collapse toggle for desktop only */}
-          {!isMobile && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className="hidden lg:flex"
-              style={{ color: iconColor.isInactive}}
-            >
-              {isCollapsed ? "→" : "←"}
-            </Button>
-          )}
+          {/* Collapse toggle for desktop */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="hidden lg:flex"
+            style={{ color: iconColor.isInactive}}
+          >
+            {isCollapsed ? "→" : "←"}
+          </Button>
           {/* Mobile close button */}
           {onClose && (
             <Button variant="ghost" size="sm" onClick={onClose} className="lg:hidden" style={{ color: iconColor.isInactive}}>
@@ -153,13 +135,13 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
               <Button
                 key={index}
                 variant="ghost"
-                className={`w-full flex items-center transition-colors ${(isCollapsed && !isMobile) ? 'px-2 justify-center' : 'justify-start'} ${isActive ? 'bg-black text-white' : ''}`}
+                className={`w-full flex items-center transition-colors ${isCollapsed ? 'px-2 justify-center' : 'justify-start'} ${isActive ? 'bg-black text-white' : ''}`}
                 style={{
                   borderRadius: sidebarRadius,
                   paddingTop: spacingMd,
                   paddingBottom: spacingMd,
-                  paddingLeft: (isCollapsed && !isMobile) ? spacingMd : spacingLg,
-                  paddingRight: (isCollapsed && !isMobile) ? spacingMd : spacingLg,
+                  paddingLeft: isCollapsed ? spacingMd : spacingLg,
+                  paddingRight: isCollapsed ? spacingMd : spacingLg,
                   background: isActive ? '#9332a2' : 'transparent',
                 }}
                 asChild
@@ -168,9 +150,9 @@ export const Sidebar = ({ onClose }: SidebarProps) => {
                   <item.icon className="shrink-0"
                     style={{
                       ...(isActive ? iconActive : iconInactive),
-                      marginRight: (isCollapsed && !isMobile) ? 0 : 12
+                      marginRight: isCollapsed ? 0 : 12
                     }} />
-                  {(!isCollapsed || isMobile) && <span className="truncate" style={isActive ? itemFontActive : itemFontInactive}>{item.label}</span>}
+                  {!isCollapsed && <span className="truncate" style={isActive ? itemFontActive : itemFontInactive}>{item.label}</span>}
                 </Link>
               </Button>
             )
