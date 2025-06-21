@@ -6,10 +6,11 @@ import { EmergencyIncident, IncidentStatus, IncidentType } from "@/types/emergen
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, Filter, AlertTriangle, Clock, CheckCircle, Users } from "lucide-react";
+import { Calendar, Filter, AlertTriangle, Clock, CheckCircle, Users, X } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 // Mock data for demonstration - using today's date
 const mockIncidents: EmergencyIncident[] = [{
@@ -101,6 +102,7 @@ const Index = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   
   const filteredIncidents = incidents.filter(incident => {
     const matchesStatus = statusFilter === "all" || incident.status === statusFilter;
@@ -118,6 +120,21 @@ const Index = () => {
     total: todayIncidents.length
   };
 
+  const handleStatusFilterChange = (value: string) => {
+    setStatusFilter(value as IncidentStatus | "all");
+  };
+
+  const handleTypeFilterChange = (value: string) => {
+    setTypeFilter(value as IncidentType | "all");
+  };
+
+  const handleDateSelect = (date: Date | undefined) => {
+    if (date) {
+      setSelectedDate(date);
+      setIsDatePickerOpen(false); // Close the date picker
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <DashboardHeader onMobileMenuToggle={() => setIsSidebarOpen(true)} />
@@ -125,7 +142,10 @@ const Index = () => {
       <div className="flex h-[calc(100vh-73px)] relative">
         {/* Mobile sidebar overlay */}
         {isSidebarOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" 
+            onClick={() => setIsSidebarOpen(false)} 
+          />
         )}
         
         {/* Sidebar */}
@@ -136,13 +156,14 @@ const Index = () => {
           transition-transform duration-300 ease-in-out
           h-full
           right-0 lg:right-auto lg:left-0
+          top-0 lg:top-auto
         `}>
           <Sidebar onClose={() => setIsSidebarOpen(false)} />
         </div>
         
         <main className="flex-1 overflow-auto">
           <div className="p-4 lg:p-8">
-            {/* Today's Overview - Redesigned */}
+            {/* Today's Overview */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg lg:text-xl font-semibold text-slate-800">Today's Overview</h2>
@@ -150,60 +171,64 @@ const Index = () => {
               </div>
               
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-                <Card className="border-0 shadow-sm bg-white/70 backdrop-blur-sm hover:shadow-md transition-shadow">
+                <Card className="relative overflow-hidden bg-gradient-to-br from-red-50 to-red-100 border-red-200 shadow-sm hover:shadow-md transition-all">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-2">
                           <div className="h-2 w-2 bg-red-500 rounded-full animate-pulse"></div>
-                          <span className="text-xs font-medium text-slate-600">Urgent</span>
+                          <span className="text-xs font-medium text-red-700">Urgent</span>
                         </div>
-                        <div className="text-2xl font-bold text-red-600">{stats.yetToAttend}</div>
+                        <div className="text-2xl font-bold text-red-700">{stats.yetToAttend}</div>
+                        <p className="text-xs text-red-600 mt-1">Yet to Attend</p>
                       </div>
                       <AlertTriangle className="h-8 w-8 text-red-500 opacity-70" />
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="border-0 shadow-sm bg-white/70 backdrop-blur-sm hover:shadow-md transition-shadow">
+                <Card className="relative overflow-hidden bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200 shadow-sm hover:shadow-md transition-all">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-2">
                           <div className="h-2 w-2 bg-yellow-500 rounded-full"></div>
-                          <span className="text-xs font-medium text-slate-600">In Progress</span>
+                          <span className="text-xs font-medium text-yellow-700">Active</span>
                         </div>
-                        <div className="text-2xl font-bold text-yellow-600">{stats.attending}</div>
+                        <div className="text-2xl font-bold text-yellow-700">{stats.attending}</div>
+                        <p className="text-xs text-yellow-600 mt-1">Attending</p>
                       </div>
                       <Clock className="h-8 w-8 text-yellow-500 opacity-70" />
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="border-0 shadow-sm bg-white/70 backdrop-blur-sm hover:shadow-md transition-shadow">
+                <Card className="relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100 border-green-200 shadow-sm hover:shadow-md transition-all">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-2">
                           <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-                          <span className="text-xs font-medium text-slate-600">Resolved</span>
+                          <span className="text-xs font-medium text-green-700">Complete</span>
                         </div>
-                        <div className="text-2xl font-bold text-green-600">{stats.attended}</div>
+                        <div className="text-2xl font-bold text-green-700">{stats.attended}</div>
+                        <p className="text-xs text-green-600 mt-1">Attended</p>
                       </div>
                       <CheckCircle className="h-8 w-8 text-green-500 opacity-70" />
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="border-0 shadow-sm bg-white/70 backdrop-blur-sm hover:shadow-md transition-shadow">
+                <Card className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 shadow-sm hover:shadow-md transition-all">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="flex items-center gap-2 mb-1">
+                        <div className="flex items-center gap-2 mb-2">
                           <div className="h-2 w-2 bg-blue-500 rounded-full"></div>
-                          <span className="text-xs font-medium text-slate-600">Total</span>
+                          <span className="text-xs font-medium text-blue-700">Total</span>
                         </div>
-                        <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
+                        <div className="text-2xl font-bold text-blue-700">{stats.total}</div>
+                        <p className="text-xs text-blue-600 mt-1">Today's Total</p>
                       </div>
                       <Users className="h-8 w-8 text-blue-500 opacity-70" />
                     </div>
@@ -212,7 +237,7 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Compact Filters */}
+            {/* Compact Filters for Mobile */}
             <div className="mb-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-base font-medium text-slate-800">Emergency Alerts</h3>
@@ -220,18 +245,19 @@ const Index = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2 text-slate-600 border-slate-300"
+                  className="flex items-center gap-2 text-slate-600 border-slate-300 lg:hidden"
                 >
                   <Filter className="h-4 w-4" />
-                  Filters
+                  {showFilters ? <X className="h-4 w-4" /> : "Filter"}
                 </Button>
               </div>
 
-              {showFilters && (
-                <Card className="border-0 shadow-sm bg-white/70 backdrop-blur-sm mb-4">
+              {/* Desktop Filters - Always Visible */}
+              <div className="hidden lg:block">
+                <Card className="bg-white/70 backdrop-blur-sm shadow-sm border-0">
                   <CardContent className="p-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <div className="grid grid-cols-3 gap-3">
+                      <Select value={statusFilter} onValueChange={handleStatusFilterChange}>
                         <SelectTrigger className="h-9 text-sm border-slate-300">
                           <SelectValue placeholder="Status" />
                         </SelectTrigger>
@@ -243,7 +269,7 @@ const Index = () => {
                         </SelectContent>
                       </Select>
 
-                      <Select value={typeFilter} onValueChange={setTypeFilter}>
+                      <Select value={typeFilter} onValueChange={handleTypeFilterChange}>
                         <SelectTrigger className="h-9 text-sm border-slate-300">
                           <SelectValue placeholder="Type" />
                         </SelectTrigger>
@@ -257,7 +283,7 @@ const Index = () => {
                         </SelectContent>
                       </Select>
 
-                      <Popover>
+                      <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
                         <PopoverTrigger asChild>
                           <Button variant="outline" className="h-9 justify-start text-sm border-slate-300">
                             <Calendar className="mr-2 h-4 w-4" />
@@ -268,8 +294,62 @@ const Index = () => {
                           <CalendarComponent
                             mode="single"
                             selected={selectedDate}
-                            onSelect={(date) => date && setSelectedDate(date)}
+                            onSelect={handleDateSelect}
                             initialFocus
+                            className={cn("p-3 pointer-events-auto")}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Mobile Filters - Collapsible */}
+              {showFilters && (
+                <Card className="bg-white/70 backdrop-blur-sm shadow-sm border-0 mb-4 lg:hidden">
+                  <CardContent className="p-4">
+                    <div className="space-y-3">
+                      <Select value={statusFilter} onValueChange={handleStatusFilterChange}>
+                        <SelectTrigger className="h-10 border-slate-300">
+                          <SelectValue placeholder="Filter by Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Status</SelectItem>
+                          <SelectItem value="yet_to_attend">Urgent</SelectItem>
+                          <SelectItem value="attending">In Progress</SelectItem>
+                          <SelectItem value="attended">Resolved</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      <Select value={typeFilter} onValueChange={handleTypeFilterChange}>
+                        <SelectTrigger className="h-10 border-slate-300">
+                          <SelectValue placeholder="Filter by Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Types</SelectItem>
+                          <SelectItem value="sos">SOS Emergency</SelectItem>
+                          <SelectItem value="fire_alarm">Fire Alarm</SelectItem>
+                          <SelectItem value="smoke_detector">Smoke Detected</SelectItem>
+                          <SelectItem value="gas_leak">Gas Leak</SelectItem>
+                          <SelectItem value="fall_detection">Fall Detection</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+                        <PopoverTrigger asChild>
+                          <Button variant="outline" className="w-full h-10 justify-start border-slate-300">
+                            <Calendar className="mr-2 h-4 w-4" />
+                            {format(selectedDate, "MMMM dd, yyyy")}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <CalendarComponent
+                            mode="single"
+                            selected={selectedDate}
+                            onSelect={handleDateSelect}
+                            initialFocus
+                            className={cn("p-3 pointer-events-auto")}
                           />
                         </PopoverContent>
                       </Popover>
