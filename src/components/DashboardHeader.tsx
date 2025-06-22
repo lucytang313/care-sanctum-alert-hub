@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -238,21 +237,20 @@ export const DashboardHeader = ({ onMobileMenuToggle }: DashboardHeaderProps) =>
   };
 
   return (
-    <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-30">
-      <div className="px-4 lg:px-6 py-3">
+    <header className="bg-white border-b border-gray-200">
+      <div className="px-6 py-3 lg:py-4">
         <div className="flex items-center justify-between gap-4">
           {/* BRAND */}
-          <div className="flex items-center space-x-3">
-            <img
-              src="/lovable-uploads/ce42e031-be3b-4c21-8b06-f0ea6e60fe7e.png"
-              alt="CareStanctum"
-              className="h-8 lg:h-10 w-auto rounded-lg"
-            />
-            <div className="hidden sm:block">
-              <h1 className="text-lg lg:text-xl font-bold bg-gradient-to-r from-slate-700 to-slate-900 bg-clip-text text-transparent">
-                CareStanctum
-              </h1>
-              <p className="text-xs lg:text-sm text-slate-500">Emergency Response</p>
+          <div className="flex items-center space-x-4 shrink-0">
+            <div className="flex items-center space-x-3">
+              <img
+                src="/lovable-uploads/ce42e031-be3b-4c21-8b06-f0ea6e60fe7e.png"
+                alt="CareStanctum"
+                className="h-10 sm:h-12 w-auto transition-all duration-300 rounded-xl"
+              />
+              <div className="hidden md:block bg-gradient-to-r from-[#3d007d] to-[#ba48b3] text-white px-4 py-1.5 rounded-lg text-lg lg:text-xl font-extrabold tracking-tight transition-all duration-300">
+                Emergency Response Dashboard
+              </div>
             </div>
           </div>
           
@@ -262,10 +260,10 @@ export const DashboardHeader = ({ onMobileMenuToggle }: DashboardHeaderProps) =>
               variant="ghost" 
               size="sm" 
               onClick={onMobileMenuToggle}
-              className="flex items-center space-x-2 hover:bg-slate-100 text-slate-600"
+              className="flex items-center space-x-2 hover:bg-gray-100"
             >
               <Menu className="h-5 w-5" />
-              <span className="hidden sm:inline text-sm">Menu</span>
+              <span className="hidden sm:inline">Menu</span>
             </Button>
           </div>
         </div>

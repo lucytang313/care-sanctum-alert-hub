@@ -2,223 +2,280 @@
 import { useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { Sidebar } from "@/components/Sidebar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Search, Phone, MapPin, User, Users } from "lucide-react";
+import { Search, Phone, Mail, MapPin, Shield, User, Users } from "lucide-react";
 
-// Mock resident data
-const mockResidents = [
+interface Resident {
+  id: string;
+  name: string;
+  flat: string;
+  phone: string;
+  email: string;
+  age: number;
+  emergencyContacts: Array<{
+    name: string;
+    relationship: string;
+    phone: string;
+  }>;
+  safetyDevices: string[];
+}
+
+const mockResidents: Resident[] = [
   {
     id: "1",
     name: "Mrs. Priya Sharma",
-    flatNumber: "A-101",
-    phoneNumber: "+91 *****210",
-    nokPhone: "+91 *****211",
-    emergencyContacts: 2,
-    status: "active"
+    flat: "A-101",
+    phone: "+91 9876543210",
+    email: "priya.sharma@example.com",
+    age: 72,
+    emergencyContacts: [
+      { name: "Rahul Sharma", relationship: "Son", phone: "+91 9876543211" },
+      { name: "Neha Sharma", relationship: "Daughter", phone: "+91 9876543212" }
+    ],
+    safetyDevices: ["Sos Button", "Fall Detector"]
   },
   {
     id: "2",
     name: "Mr. Rajesh Kumar",
-    flatNumber: "B-205",
-    phoneNumber: "+91 *****212",
-    nokPhone: "+91 *****213",
-    emergencyContacts: 1,
-    status: "active"
+    flat: "B-205",
+    phone: "+91 9876543213",
+    email: "rajesh.kumar@example.com",
+    age: 68,
+    emergencyContacts: [
+      { name: "Amit Kumar", relationship: "Son", phone: "+91 9876543214" }
+    ],
+    safetyDevices: ["Sos Button"]
   },
   {
     id: "3",
     name: "Mrs. Sunita Gupta",
-    flatNumber: "C-302",
-    phoneNumber: "+91 *****214",
-    nokPhone: "+91 *****215",
-    emergencyContacts: 3,
-    status: "inactive"
+    flat: "C-302",
+    phone: "+91 9876543215",
+    email: "sunita.gupta@example.com",
+    age: 75,
+    emergencyContacts: [
+      { name: "Deepak Gupta", relationship: "Son", phone: "+91 9876543216" }
+    ],
+    safetyDevices: ["Fall Detector"]
   }
 ];
 
 const Residents = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [selectedResident, setSelectedResident] = useState<Resident | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [residents] = useState(mockResidents);
+  const [activeTab, setActiveTab] = useState("Profile");
 
-  const filteredResidents = residents.filter(resident =>
+  const filteredResidents = mockResidents.filter(resident =>
     resident.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    resident.flatNumber.toLowerCase().includes(searchTerm.toLowerCase())
+    resident.flat.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const stats = {
-    total: residents.length,
-    active: residents.filter(r => r.status === "active").length,
-    inactive: residents.filter(r => r.status === "inactive").length,
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <DashboardHeader onMobileMenuToggle={() => setIsSidebarOpen(true)} />
+    <div className="flex h-screen bg-gray-50">
+      <Sidebar />
       
-      <div className="flex h-[calc(100vh-73px)] relative">
-        {/* Mobile sidebar overlay */}
-        {isSidebarOpen && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" 
-            onClick={() => setIsSidebarOpen(false)} 
-          />
-        )}
+      <div className="flex-1 flex flex-col">
+        <DashboardHeader />
         
-        {/* Sidebar */}
-        <div className={`
-          fixed lg:relative z-50 lg:z-auto
-          ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
-          lg:translate-x-0
-          transition-transform duration-300 ease-in-out
-          h-full
-          right-0 lg:right-auto lg:left-0
-          top-0 lg:top-auto
-        `}>
-          <Sidebar onClose={() => setIsSidebarOpen(false)} />
-        </div>
-        
-        <main className="flex-1 overflow-auto">
-          <div className="p-4 lg:p-8">
-            {/* Header */}
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold text-slate-800 mb-2">Resident Directory</h1>
-              <p className="text-slate-600">Manage and view resident information</p>
-            </div>
-
-            {/* Stats Overview */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-2xl font-bold text-blue-700">{stats.total}</div>
-                      <p className="text-sm text-blue-600">Total Residents</p>
-                    </div>
-                    <Users className="h-8 w-8 text-blue-500 opacity-70" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-2xl font-bold text-green-700">{stats.active}</div>
-                      <p className="text-sm text-green-600">Active</p>
-                    </div>
-                    <User className="h-8 w-8 text-green-500 opacity-70" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-2xl font-bold text-gray-700">{stats.inactive}</div>
-                      <p className="text-sm text-gray-600">Inactive</p>
-                    </div>
-                    <User className="h-8 w-8 text-gray-500 opacity-70" />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Search */}
-            <Card className="mb-6 bg-white/70 backdrop-blur-sm">
-              <CardContent className="p-4">
+        <div className="flex-1 p-6">
+          <div className="max-w-7xl mx-auto">
+            <h1 className="text-2xl font-bold text-gray-900 mb-6">Resident Directory</h1>
+            
+            <div className="bg-white rounded-lg shadow p-6">
+              <div className="mb-6">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
-                    placeholder="Search residents by name or flat number..."
+                    placeholder="Search by name or flat..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 border-slate-300"
+                    className="pl-10"
                   />
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Residents List */}
-            <div className="space-y-4">
-              {filteredResidents.map((resident) => (
-                <Card key={resident.id} className="shadow-sm hover:shadow-md transition-all bg-white/70 backdrop-blur-sm">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-start gap-4 flex-1">
-                        <Avatar className="h-12 w-12">
-                          <AvatarFallback className="bg-purple-100 text-purple-700 font-semibold">
-                            {resident.name.split(' ').map(n => n[0]).join('')}
-                          </AvatarFallback>
-                        </Avatar>
-                        
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="font-semibold text-lg text-slate-800">{resident.name}</h3>
-                            <Badge variant={resident.status === 'active' ? 'default' : 'secondary'}>
-                              {resident.status}
-                            </Badge>
-                          </div>
-                          
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-slate-600">
-                            <div className="flex items-center gap-2">
-                              <MapPin className="h-4 w-4 text-slate-400" />
-                              <span>Flat {resident.flatNumber}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Phone className="h-4 w-4 text-slate-400" />
-                              <span>{resident.phoneNumber}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Users className="h-4 w-4 text-slate-400" />
-                              <span>{resident.emergencyContacts} Emergency Contacts</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Phone className="h-4 w-4 text-slate-400" />
-                              <span>NOK: {resident.nokPhone}</span>
-                            </div>
-                          </div>
-                        </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredResidents.map((resident) => (
+                  <div
+                    key={resident.id}
+                    className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+                    onClick={() => setSelectedResident(resident)}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold">
+                        {getInitials(resident.name)}
                       </div>
-                      
-                      <div className="flex gap-2">
-                        <Button 
-                          size="sm" 
-                          style={{ backgroundColor: 'hsl(var(--caresanctum-purple))' }}
-                          className="text-white hover:opacity-90"
-                        >
-                          <Phone className="h-4 w-4 mr-1" />
-                          Call
-                        </Button>
-                        <Button size="sm" variant="outline">
-                          View Details
-                        </Button>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 truncate">{resident.name}</h3>
+                        <p className="text-sm text-gray-600">Flat: {resident.flat}</p>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {filteredResidents.length === 0 && (
-              <Card className="bg-white/70 backdrop-blur-sm">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Users className="h-8 w-8 text-slate-400" />
                   </div>
-                  <h3 className="text-lg font-medium text-slate-700 mb-2">No residents found</h3>
-                  <p className="text-slate-500">Try adjusting your search criteria</p>
-                </CardContent>
-              </Card>
-            )}
+                ))}
+              </div>
+            </div>
           </div>
-        </main>
+        </div>
       </div>
+
+      <Dialog open={!!selectedResident} onOpenChange={() => setSelectedResident(null)}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Resident Information</DialogTitle>
+          </DialogHeader>
+          
+          {selectedResident && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Left Sidebar */}
+              <div className="lg:col-span-1">
+                <div className="mb-6">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Input placeholder="Search by name or flat..." className="pl-10" />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  {mockResidents.map((resident) => (
+                    <div
+                      key={resident.id}
+                      className={`p-3 rounded-lg cursor-pointer transition-colors ${
+                        selectedResident.id === resident.id ? 'bg-blue-100' : 'hover:bg-gray-100'
+                      }`}
+                      onClick={() => setSelectedResident(resident)}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                          {getInitials(resident.name)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-gray-900 truncate">{resident.name}</h4>
+                          <p className="text-sm text-gray-600">Flat: {resident.flat}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Main Content */}
+              <div className="lg:col-span-2">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    {getInitials(selectedResident.name)}
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900">{selectedResident.name}</h2>
+                    <p className="text-gray-600">{selectedResident.age} years old</p>
+                  </div>
+                </div>
+                
+                {/* Tabs */}
+                <div className="flex space-x-6 mb-6 border-b">
+                  {["Profile", "Medical Info", "Recent Alerts"].map((tab) => (
+                    <button
+                      key={tab}
+                      className={`pb-2 px-1 border-b-2 transition-colors ${
+                        activeTab === tab
+                          ? 'border-blue-500 text-blue-600'
+                          : 'border-transparent text-gray-600 hover:text-gray-900'
+                      }`}
+                      onClick={() => setActiveTab(tab)}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+                
+                {/* Tab Content */}
+                {activeTab === "Profile" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Contact Information */}
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <User className="h-5 w-5 text-gray-600" />
+                        <h3 className="font-semibold text-gray-900">Contact Information</h3>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2">
+                          <MapPin className="h-4 w-4 text-gray-600" />
+                          <span className="text-sm text-gray-600">Flat:</span>
+                          <span className="text-sm font-medium">{selectedResident.flat}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Phone className="h-4 w-4 text-gray-600" />
+                          <span className="text-sm text-gray-600">Phone:</span>
+                          <span className="text-sm font-medium">{selectedResident.phone}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Mail className="h-4 w-4 text-gray-600" />
+                          <span className="text-sm text-gray-600">Email:</span>
+                          <span className="text-sm font-medium">{selectedResident.email}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Emergency Contacts */}
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <Users className="h-5 w-5 text-gray-600" />
+                        <h3 className="font-semibold text-gray-900">Emergency Contacts</h3>
+                      </div>
+                      <div className="space-y-3">
+                        {selectedResident.emergencyContacts.map((contact, index) => (
+                          <div key={index} className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium text-gray-900">{contact.name}</p>
+                              <p className="text-sm text-gray-600">{contact.phone}</p>
+                            </div>
+                            <Badge variant="outline" className="bg-blue-100 text-blue-800">
+                              {contact.relationship}
+                            </Badge>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Safety Devices */}
+                    <div className="bg-gray-50 rounded-lg p-4 md:col-span-2">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <Shield className="h-5 w-5 text-gray-600" />
+                        <h3 className="font-semibold text-gray-900">Safety Devices</h3>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedResident.safetyDevices.map((device, index) => (
+                          <Badge key={index} variant="outline" className="bg-green-100 text-green-800">
+                            {device}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {activeTab === "Medical Info" && (
+                  <div className="text-center py-8 text-gray-500">
+                    Medical information will be displayed here
+                  </div>
+                )}
+                
+                {activeTab === "Recent Alerts" && (
+                  <div className="text-center py-8 text-gray-500">
+                    Recent alerts will be displayed here
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
